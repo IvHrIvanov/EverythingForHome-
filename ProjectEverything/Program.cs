@@ -1,4 +1,5 @@
 using DataBaseevEverythingForHome.Database;
+using DataBaseevEverythingForHome.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

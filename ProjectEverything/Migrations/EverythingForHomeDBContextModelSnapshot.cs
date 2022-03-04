@@ -90,6 +90,18 @@ namespace ProjectEverything.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("CabelMeter")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(225)
+                        .HasColumnType("nvarchar(225)");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PartElectric")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -105,44 +117,15 @@ namespace ProjectEverything.Migrations
                     b.Property<int?>("ShopId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Year")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ShopId");
 
                     b.ToTable("ElectricsParts");
-                });
-
-            modelBuilder.Entity("DataBaseevEverythingForHome.Models.Maggazine", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<string>("Town")
-                        .IsRequired()
-                        .HasMaxLength(28)
-                        .HasColumnType("nvarchar(28)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Maggazines");
                 });
 
             modelBuilder.Entity("DataBaseevEverythingForHome.Models.Order", b =>
@@ -177,6 +160,39 @@ namespace ProjectEverything.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("DataBaseevEverythingForHome.Models.Shop", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.Property<string>("Town")
+                        .IsRequired()
+                        .HasMaxLength(28)
+                        .HasColumnType("nvarchar(28)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Shops");
+                });
+
             modelBuilder.Entity("DataBaseevEverythingForHome.Models.WaterPart", b =>
                 {
                     b.Property<int>("Id")
@@ -209,7 +225,7 @@ namespace ProjectEverything.Migrations
 
             modelBuilder.Entity("DataBaseevEverythingForHome.Models.Account", b =>
                 {
-                    b.HasOne("DataBaseevEverythingForHome.Models.Maggazine", "Shop")
+                    b.HasOne("DataBaseevEverythingForHome.Models.Shop", "Shop")
                         .WithMany("Accounts")
                         .HasForeignKey("ShopId");
 
@@ -218,7 +234,7 @@ namespace ProjectEverything.Migrations
 
             modelBuilder.Entity("DataBaseevEverythingForHome.Models.ElectricPart", b =>
                 {
-                    b.HasOne("DataBaseevEverythingForHome.Models.Maggazine", "Shop")
+                    b.HasOne("DataBaseevEverythingForHome.Models.Shop", "Shop")
                         .WithMany("ElectricParts")
                         .HasForeignKey("ShopId");
 
@@ -238,14 +254,14 @@ namespace ProjectEverything.Migrations
 
             modelBuilder.Entity("DataBaseevEverythingForHome.Models.WaterPart", b =>
                 {
-                    b.HasOne("DataBaseevEverythingForHome.Models.Maggazine", "Shop")
+                    b.HasOne("DataBaseevEverythingForHome.Models.Shop", "Shop")
                         .WithMany("WaterParts")
                         .HasForeignKey("ShopId");
 
                     b.Navigation("Shop");
                 });
 
-            modelBuilder.Entity("DataBaseevEverythingForHome.Models.Maggazine", b =>
+            modelBuilder.Entity("DataBaseevEverythingForHome.Models.Shop", b =>
                 {
                     b.Navigation("Accounts");
 

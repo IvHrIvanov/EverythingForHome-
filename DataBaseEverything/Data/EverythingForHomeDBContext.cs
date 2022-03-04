@@ -18,7 +18,7 @@ namespace DataBaseevEverythingForHome.Database
         public DbSet<WaterPart> WatersParts { get; set; }
         public DbSet<ElectricPart> ElectricsParts { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<Maggazine> Maggazines { get; set; }
+        public DbSet<Shop> Shops { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

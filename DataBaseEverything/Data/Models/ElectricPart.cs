@@ -17,11 +17,21 @@ namespace DataBaseevEverythingForHome.Models
         [MaxLength(30)]
         public string PartElectric { get; set; }
         [Required]
-        public decimal Price { get; set; } = 0;
+        public string Year { get; set; }
         [Required]
-        public int Quantity { get; set; } = 0;
+        public decimal Price { get; set; }
+        [Required]
+        public int Quantity { get; set; }
+        [Required]
+        public int CabelMeter { get; set; }
+        [Url]
+        public string ImageUrl { get; set; }
 
         public int? ShopId { get; set; }
-        public Maggazine Shop { get; set; }
+        public Shop Shop { get; set; }
+        [Required]
+        [MinLength(5)]
+        [MaxLength(225)]
+        public string Description { get; set; }
     }
 }

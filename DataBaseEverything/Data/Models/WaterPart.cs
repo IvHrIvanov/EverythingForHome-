@@ -22,6 +22,6 @@ namespace DataBaseevEverythingForHome.Models
         public int Quantity { get; set; } = 0;
 
         public int? ShopId { get; set; }
-        public Maggazine Shop { get; set; }
+        public Shop Shop { get; set; }
     }
 }
