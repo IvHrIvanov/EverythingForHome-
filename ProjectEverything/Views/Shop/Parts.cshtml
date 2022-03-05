@@ -1,12 +1,19 @@
 ﻿@{
     ViewData["Title"] = "Parts";
 }
-
+@model List<ProductViewModel>
 <h1>Hello u can buy all!</h1>
 <ul>
-   <li>
-       <p>Product 1</p>
-       
-       <button>Add to Cart</button> <button>Buy</button>
-   </li>
+    @foreach (var product in Model)
+    {
+        <li class="products">
+            <h3>@product.Part</h3>
+            <img class="imageControll" src="/Magazine.jpeg">
+            Price - @product.Price
+            Quantity - @product.Quantity
+            Yaer - @product.Year
+            Description - @product.Description
+            <button>Add to Cart</button> <button>Buy</button>
+        </li>
+    }
 </ul>

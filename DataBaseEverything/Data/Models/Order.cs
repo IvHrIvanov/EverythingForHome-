@@ -21,5 +21,7 @@ namespace DataBaseevEverythingForHome.Models
 
         public int? BuyerId { get; set; }
         public Account Account { get; set; }
+        public ICollection<Products> Products { get; set; } = new List<Products>();
+            
     }
 }

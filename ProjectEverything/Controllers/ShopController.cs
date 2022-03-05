@@ -1,8 +1,8 @@
 ﻿using DataBaseevEverythingForHome.Database;
 using DataBaseevEverythingForHome.Models;
 using Microsoft.AspNetCore.Mvc;
+using ProjectEverything.Models;
 using ProjectEverything.Models.ElectricPart;
-using ProjectEverything.Models.WaterParts;
 
 namespace ProjectEverything.Controllers
 {
@@ -16,37 +16,44 @@ namespace ProjectEverything.Controllers
         }
         public IActionResult Parts()
         {
+            var productModel = new List<ProductViewModel>();
+            var allDataFromDataBase = data.Products.Select(x => x).ToArray();
             
-            Boiler boiler = new Boiler()
+            foreach (var item in allDataFromDataBase)
             {
-                Manufacturer = "Tessy",
-                Model = "A321",
-                Price = 123.55m,
-            };
-            ViewBag.Boiler = boiler;
-            return View();
+               var product= new ProductViewModel
+                {
+                    Part=item.Part,
+                    Price=item.Price,
+                    ImageUrl=item.ImageUrl,
+                    Quantity=item.Quantity,
+                    Description=item.Description,
+                    Year=item.Year,
+                };
+                productModel.Add(product);
+            }
+            return View(productModel);
         }
-        public IActionResult Add(AddPartFormModel part)
+        public IActionResult Add(AddPartFormModel product)
         {
             if (!ModelState.IsValid)
             {
                 
-                return View(part);
+                return View(product);
             }
             var shop = data.Shops.FirstOrDefault();
 
-            var partForm = new ElectricPart
+            var partForm = new Products
             {
-                PartElectric = part.PartElectric,
-                Price = part.Price,
-                Quantity = part.Quantity,
-                CabelMeter = part.CabelMeter,
-                Description = part.Description,
-                ImageUrl = part.ImageUrl,
-                Year = part.Year,
+                Part = product.Part,
+                Price = product.Price,
+                Quantity = product.Quantity,
+                Description = product.Description,
+                ImageUrl = product.ImageUrl,
+                Year = product.Year,
                 ShopId = shop.Id
             };
-            this.data.ElectricsParts.Add(partForm);
+            this.data.Products.Add(partForm);
             this.data.SaveChanges();
             return RedirectToAction("Index","Home");
         }

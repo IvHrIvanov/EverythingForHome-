@@ -13,7 +13,7 @@ namespace DataBaseevEverythingForHome.Models
         [Required]
         public string Password { get; set; }
         [Required]
-        [MaxLength(80)]
+        [EmailAddress]
         public string Email { get; set; }
         [Required]
         [MaxLength(20)]
@@ -22,15 +22,15 @@ namespace DataBaseevEverythingForHome.Models
         [MaxLength(20)]
         public string LastName { get; set; }
         [Required]
-        public DateTime BirtDate { get; set; }
+        public DateTime BirthDate { get; set; }
         [Required]
         [MaxLength(28)]
-        public string City { get; set; }
+        public string Town { get; set; }
         [Required]
         [MaxLength(80)]
         public string Address { get; set; }
         [Required]
-        [MaxLength(20)]
+        [Phone]
         public string Phone { get; set; }
 
         public int? ShopId { get; set; } 

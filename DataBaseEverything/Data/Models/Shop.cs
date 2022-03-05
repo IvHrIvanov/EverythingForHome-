@@ -25,8 +25,7 @@ namespace DataBaseevEverythingForHome.Models
         public string Phone { get; set; }
 
         public ICollection<Account> Accounts { get; set; } = new HashSet<Account>();
-        public ICollection<ElectricPart> ElectricParts { get; set; } = new HashSet<ElectricPart>();
-        public ICollection<WaterPart> WaterParts { get; set; } = new HashSet<WaterPart>();
+        public ICollection<Products> Products { get; set; } = new HashSet<Products>();
 
     }
 }

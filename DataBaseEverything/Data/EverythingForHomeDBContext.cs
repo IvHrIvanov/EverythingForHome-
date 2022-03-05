@@ -15,8 +15,7 @@ namespace DataBaseevEverythingForHome.Database
 
         }
         public DbSet<Account> Accounts { get; set; }
-        public DbSet<WaterPart> WatersParts { get; set; }
-        public DbSet<ElectricPart> ElectricsParts { get; set; }
+        public DbSet<Products> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Shop> Shops { get; set; }
 
@@ -30,8 +29,7 @@ namespace DataBaseevEverythingForHome.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ElectricPart>().Property(e => e.Price).HasPrecision(18, 2);
-            modelBuilder.Entity<WaterPart>().Property(e => e.Price).HasPrecision(18, 2);
+            modelBuilder.Entity<Products>().Property(e => e.Price).HasPrecision(18, 2);
             modelBuilder.Entity<Order>().Property(e => e.TotalPrice).HasPrecision(18, 2);
         }
 
