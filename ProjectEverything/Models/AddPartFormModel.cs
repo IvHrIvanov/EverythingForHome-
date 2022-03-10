@@ -11,15 +11,18 @@ namespace ProjectEverything.Models.ElectricPart
         [Range(0, 10000, ErrorMessage = "Price need to be between {1} and {2} money!")]
         public decimal Price { get; init; }
         [Required]
-        public int Quantity { get; set; }
+
+        public int Quantity { get; init; } = 0;
         [Required]
-        public string Year { get; set; }
+        [MinLength(4)]
+        [MaxLength(4)]
+        public string Year { get; init; }
         [Required]
         [Display(Name = "Image URL")]
-        [Url]
-        public string ImageUrl { get; set; }
+        [Url(ErrorMessage = "Wrong URL format!")]
+        public string ImageUrl { get; init; }
         [Required]
         [StringLength(225, MinimumLength = 5, ErrorMessage = "Description text must need to be between {2} and {1} symbols!")]
-        public string Description { get; set; }
+        public string Description { get; init; }
     }
 }

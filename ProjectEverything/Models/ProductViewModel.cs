@@ -5,6 +5,7 @@ namespace ProjectEverything.Models
     public class ProductViewModel
     {
 
+
         public string Part { get; init; }
         
         public decimal Price { get; init; }

@@ -14,26 +14,32 @@ namespace ProjectEverything.Controllers
         {
             this.data = data;   
         }
-        public IActionResult Parts()
+        public IActionResult Parts([FromQuery]AllProductsQuaryModel quary)
         {
             var productModel = new List<ProductViewModel>();
-            var allDataFromDataBase = data.Products.Select(x => x).ToArray();
-            
-            foreach (var item in allDataFromDataBase)
-            {
-               var product= new ProductViewModel
+            var allDataFromDataBase = data.Products.AsQueryable();
+            var parts = allDataFromDataBase
+                .Skip((quary.CurrentPage-1)*AllProductsQuaryModel.PartsPerPage)
+                .Take(AllProductsQuaryModel.PartsPerPage)
+                .Select(x => new ProductViewModel
                 {
-                    Part=item.Part,
-                    Price=item.Price,
-                    ImageUrl=item.ImageUrl,
-                    Quantity=item.Quantity,
-                    Description=item.Description,
-                    Year=item.Year,
-                };
-                productModel.Add(product);
-            }
-            return View(productModel);
+                    Part = x.Part,
+                    Price = x.Price,
+                    ImageUrl = x.ImageUrl,
+                    Quantity = x.Quantity,
+                    Description = x.Description,
+                    Year = x.Year,
+                })
+                .ToList();
+            quary.Products = parts;
+            return View(quary);
         }
+        public IActionResult SearchProduct(string productName)
+        {
+
+            return View();
+        }
+       
         public IActionResult Add(AddPartFormModel product)
         {
             if (!ModelState.IsValid)
@@ -55,7 +61,7 @@ namespace ProjectEverything.Controllers
             };
             this.data.Products.Add(partForm);
             this.data.SaveChanges();
-            return RedirectToAction("Index","Home");
+            return RedirectToAction(nameof(Add));
         }
     }
 }

@@ -12,14 +12,35 @@ html {
     position: relative;
     min-height: 100%;
 }
-
-body {
-    margin-bottom: 1100px;
-  /*  background: url(/Praktiker.jpg) no-repeat center center fixed;
+/*#partsView {
+    background: url(/sklad.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
-    background-size: cover;*/
+    background-size: cover;
+    
+    
+}*/
+#example {
+    height:820px;
+    background: url(/sklad.jpg);
+    background-repeat: no-repeat;
+    background-origin: content-box, content-box;
+}
+.card-img-top{
+    width:180px;
+    height:180px;
+    margin-top:20px;
+    margin-left:110px;
+    justify-content:center;
+}
+
+#imgSklad {
+    display: flex;
+}
+body {
+    margin-bottom: 50px;
+
 }
 .imageControll {
     height:200px;
