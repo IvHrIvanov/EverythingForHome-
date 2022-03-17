@@ -49,19 +49,8 @@ namespace ProjectEverything.Controllers
         {
 
             var product = data.Products.Where(x => x.Id == productId)
-              .Select(x => new Products
-              {
-                  Id = x.Id,
-                  Part = x.Part,
-                  Price = x.Price,
-                  ImageUrl = x.ImageUrl,
-                  Quantity = x.Quantity,
-                  Description = x.Description,
-                  ShopId = x.ShopId,
-                  Shop = x.Shop,
-                  Year = x.Year
-              })
-              .FirstOrDefault();
+                         .FirstOrDefault();
+
             var order = new Order
             {
 
@@ -70,8 +59,10 @@ namespace ProjectEverything.Controllers
                 Products = new List<Products>()
 
             };
+
             order.Products.Add(product);
-            this.data.Add(order);
+
+            this.data.Orders.Add(order);
             this.data.SaveChanges();
             return RedirectToAction(nameof(Parts));
         }

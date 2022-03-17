@@ -6,9 +6,30 @@
 <div class="row">
     <div class="col-md-12 justify-content-center">
         <ul class="list-group">
-          
-                <li class="list-group-item">An item</li>
-                  
+
+            <table class="table table-striped">
+                <tr>
+                    <th>Part</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Description</th>
+                    <th>Total Price</th>
+                </tr>
+
+                <tr>
+                    @foreach (var product in @Model.Order.Products)
+                    {
+                        <th>@product.Part</th>
+                        <th>@product.Price BGN</th>
+                        <th>@product.Quantity</th>
+                        <th>@product.Description</th>
+                        <th>@(product.Price*product.Quantity) BGN</th>
+                    }
+                </tr>
+
+            </table>
+
+
         </ul>
     </div>
 </div>

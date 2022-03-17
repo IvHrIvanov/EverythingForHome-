@@ -1,7 +1,9 @@
-﻿namespace ProjectEverything.Models
+﻿using DataBaseevEverythingForHome.Models;
+
+namespace ProjectEverything.Models
 {
     public class CartAddedProducts
     {
-        public IEnumerable<ProductViewModel> CartProducts { get; set; }
+        public Order Order { get; set; }
     }
 }

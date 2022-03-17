@@ -1,6 +1,8 @@
 ﻿using DataBaseevEverythingForHome.Database;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectEverything.Models;
+using System.Linq;
 
 namespace ProjectEverything.Controllers
 {
@@ -16,24 +18,15 @@ namespace ProjectEverything.Controllers
             this.cartProducts = cartProducts;
         }
 
-        public IActionResult Show()
+        public IActionResult Show([FromQuery] CartAddedProducts cart)
         {
-            var product = new ProductViewModel();
-            var showProducts = data.Orders
-                .ToArray()
-                .Select(x => new
-                {
-                    Products = x.Products.Select(p => new
-                    {
-                        Part = p.Part,
-                        Price = p.Price,
-                        Year = p.Year,
-                        ImageUrl = p.ImageUrl,
-                        Description = p.Description,
-                        Quantity = p.Quantity
-                    })
-                });
-            return View();
+            var order = data.Orders
+                .Include(x=>x.Products)
+                .Where(x => x.AccountId == 1)
+                .FirstOrDefault();
+
+            cart.Order = order;
+            return View(cart);
         }
     }
 }
