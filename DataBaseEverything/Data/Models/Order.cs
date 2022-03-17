@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataBaseevEverythingForHome.Models
 {
@@ -8,14 +9,11 @@ namespace DataBaseevEverythingForHome.Models
         public int Id { get; set; }
         [Required]
         public int OrderNumber { get; init; }
-        [Required]
-        public string OrderedProduct { get; set; } 
-        [Required]
-        public decimal TotalPrice { get; set; } = 0;
 
-        public int? BuyerId { get; set; }
+        public int? AccountId { get; set; }
         public Account Account { get; set; }
+
         public ICollection<Products> Products { get; set; } = new List<Products>();
-            
+
     }
 }

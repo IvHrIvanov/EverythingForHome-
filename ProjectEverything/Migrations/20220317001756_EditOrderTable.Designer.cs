@@ -4,6 +4,7 @@ using DataBaseevEverythingForHome.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ProjectEverything.Migrations
 {
     [DbContext(typeof(EverythingForHomeDBContext))]
-    partial class EverythingForHomeDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220317001756_EditOrderTable")]
+    partial class EditOrderTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,7 +90,10 @@ namespace ProjectEverything.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("AccountId")
+                    b.Property<int>("AccountId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("BuyerId")
                         .HasColumnType("int");
 
                     b.Property<int>("OrderNumber")
@@ -195,7 +200,9 @@ namespace ProjectEverything.Migrations
                 {
                     b.HasOne("DataBaseevEverythingForHome.Models.Account", "Account")
                         .WithMany()
-                        .HasForeignKey("AccountId");
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Account");
                 });

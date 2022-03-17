@@ -12,7 +12,7 @@
                 <input asp-for="SearchTerm" class="form-control" placeholder="Cabel,Boiler..." />
             </div>
         </div>
-        <input type="submit" class="btn btn-primary d-none" value="Search" />
+        <input type="submit" class="btn btn-primary mt-2" value="Search" />
     </form>
 </div>
 <div class="row">
@@ -26,20 +26,27 @@
                     <p class="card-text">Price - @product.Price BGN</p>
                     <p class="card-text">Yaer - @product.Year</p>
                     <p class="card-text">Description - @product.Description</p>
-                    <a href="#" class="btn btn-primary">Add to Cart</a> <a href="#" class="btn btn-primary">Buy</a>
+                    @using (Html.BeginForm("AddToCart", "Shop", new { productId = product.Id }, FormMethod.Post))
+                    {                 
+                        <button class="btn btn-primary r" type="submit" name="addToCart" value="btnAdd">Add to cart</button>
+                    }
                     <span class="badge bg-primary rounded-pill float-end">Quantity - @product.Quantity </span>
+
                 </div>
             </div>
         </div>
     }
 </div>
 <div class="row">
+
     <div class="col-md-6">
-        <a class="btn btn-primary mt-3" asp-controller="Shop" asp-action="Parts" asp-route-currentPage="@(Model.CurrentPage-1)"><<</a>
+        <a class="btn btn-primary @(Model.CurrentPage==1 ?"disabled":string.Empty) mt-3" asp-controller="Shop" asp-action="Parts" asp-route-currentPage="@(Model.CurrentPage-1)"><<</a>
     </div>
+
+
     <div class="col-md-6">
-        <a class="btn btn-primary float-right mt-3" asp-controller="Shop" asp-action="Parts" asp-route-currentPage="@(Model.CurrentPage+1)">>></a>
+        <a class="btn btn-primary @(Model.CurrentPage==Model.Products.Count()/AllProductsQuaryModel.PartsPerPage ?string.Empty:"disabled") float-right mt-3" asp-controller="Shop" asp-action="Parts" asp-route-currentPage="@(Model.CurrentPage+1)">>></a>
     </div>
 </div>
-   
+
 

@@ -29,8 +29,9 @@ namespace DataBaseevEverythingForHome.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Products>().Property(e => e.Price).HasPrecision(18, 2);
-            modelBuilder.Entity<Order>().Property(e => e.TotalPrice).HasPrecision(18, 2);
+           
         }
 
 

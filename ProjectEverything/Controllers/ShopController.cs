@@ -12,39 +12,75 @@ namespace ProjectEverything.Controllers
 
         public ShopController(EverythingForHomeDBContext data)
         {
-            this.data = data;   
+            this.data = data;
+
         }
-        public IActionResult Parts([FromQuery]AllProductsQuaryModel quary)
+        public IActionResult Parts([FromQuery] AllProductsQuaryModel quary)
         {
+            var partsQuaryable = data.Products.AsQueryable();
+
+            if (!String.IsNullOrWhiteSpace(quary.SearchTerm))
+            {
+                partsQuaryable = data.Products
+                    .Where(x => x.Part.Contains(quary.SearchTerm));
+
+            }
             var productModel = new List<ProductViewModel>();
-            var allDataFromDataBase = data.Products.AsQueryable();
-            var parts = allDataFromDataBase
-                .Skip((quary.CurrentPage-1)*AllProductsQuaryModel.PartsPerPage)
+            var parts = partsQuaryable
+                .Skip((quary.CurrentPage - 1) * AllProductsQuaryModel.PartsPerPage)
                 .Take(AllProductsQuaryModel.PartsPerPage)
                 .Select(x => new ProductViewModel
                 {
+                    Id = x.Id,
                     Part = x.Part,
                     Price = x.Price,
                     ImageUrl = x.ImageUrl,
                     Quantity = x.Quantity,
                     Description = x.Description,
-                    Year = x.Year,
+                    Year = x.Year
                 })
                 .ToList();
+
             quary.Products = parts;
             return View(quary);
         }
-        public IActionResult SearchProduct(string productName)
+
+        public IActionResult AddToCart(int productId)
         {
 
-            return View();
+            var product = data.Products.Where(x => x.Id == productId)
+              .Select(x => new Products
+              {
+                  Id = x.Id,
+                  Part = x.Part,
+                  Price = x.Price,
+                  ImageUrl = x.ImageUrl,
+                  Quantity = x.Quantity,
+                  Description = x.Description,
+                  ShopId = x.ShopId,
+                  Shop = x.Shop,
+                  Year = x.Year
+              })
+              .FirstOrDefault();
+            var order = new Order
+            {
+
+                OrderNumber = 12,
+                AccountId = 1,
+                Products = new List<Products>()
+
+            };
+            order.Products.Add(product);
+            this.data.Add(order);
+            this.data.SaveChanges();
+            return RedirectToAction(nameof(Parts));
         }
-       
+
         public IActionResult Add(AddPartFormModel product)
         {
             if (!ModelState.IsValid)
             {
-                
+
                 return View(product);
             }
             var shop = data.Shops.FirstOrDefault();
