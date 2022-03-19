@@ -4,6 +4,10 @@ namespace ProjectEverything.Models
 {
     public class CartAddedProducts
     {
-        public Order Order { get; set; }
+        public int ProductId { get; set; }
+        public int AccountId { get; init; }
+        public int Quantity { get; init; }
+        public Product Product { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DataBaseevEverythingForHome.Database;
+using DataBaseevEverythingForHome.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectEverything.Models;
@@ -9,23 +10,29 @@ namespace ProjectEverything.Controllers
     public class CartController : Controller
     {
         private readonly EverythingForHomeDBContext data;
-        private readonly IEnumerable<CartAddedProducts> cartProducts;
 
 
-        public CartController(EverythingForHomeDBContext data, IEnumerable<CartAddedProducts> cartProducts)
+        public CartController(EverythingForHomeDBContext data)
         {
             this.data = data;
-            this.cartProducts = cartProducts;
         }
 
         public IActionResult Show([FromQuery] CartAddedProducts cart)
         {
-            var order = data.Orders
-                .Include(x=>x.Products)
-                .Where(x => x.AccountId == 1)
-                .FirstOrDefault();
+            cart.Products = new List<Product>();
 
-            cart.Order = order;
+            var order = data.Orders
+                .Include(x => x.Products)
+                .Where(x =>x.Products.Count != 0)
+                .ToList();
+
+            foreach (var item in order)
+            {
+                foreach (var currentProduct in item.Products)
+                {
+                    cart.Products.Add(currentProduct);
+                }
+            }
             return View(cart);
         }
     }

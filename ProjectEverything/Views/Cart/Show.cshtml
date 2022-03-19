@@ -15,18 +15,17 @@
                     <th>Description</th>
                     <th>Total Price</th>
                 </tr>
-
-                <tr>
-                    @foreach (var product in @Model.Order.Products)
-                    {
+                @foreach (var product in @Model.Products)
+                {
+                    <tr>
                         <th>@product.Part</th>
                         <th>@product.Price BGN</th>
                         <th>@product.Quantity</th>
                         <th>@product.Description</th>
                         <th>@(product.Price*product.Quantity) BGN</th>
-                    }
-                </tr>
 
+                    </tr>
+                }
             </table>
 
 

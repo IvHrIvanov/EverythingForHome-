@@ -1,8 +1,10 @@
 ﻿using DataBaseevEverythingForHome.Database;
 using DataBaseevEverythingForHome.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectEverything.Models;
 using ProjectEverything.Models.ElectricPart;
+using System.Linq;
 
 namespace ProjectEverything.Controllers
 {
@@ -17,6 +19,7 @@ namespace ProjectEverything.Controllers
         }
         public IActionResult Parts([FromQuery] AllProductsQuaryModel quary)
         {
+            ;
             var partsQuaryable = data.Products.AsQueryable();
 
             if (!String.IsNullOrWhiteSpace(quary.SearchTerm))
@@ -29,6 +32,7 @@ namespace ProjectEverything.Controllers
             var parts = partsQuaryable
                 .Skip((quary.CurrentPage - 1) * AllProductsQuaryModel.PartsPerPage)
                 .Take(AllProductsQuaryModel.PartsPerPage)
+
                 .Select(x => new ProductViewModel
                 {
                     Id = x.Id,
@@ -45,23 +49,25 @@ namespace ProjectEverything.Controllers
             return View(quary);
         }
 
-        public IActionResult AddToCart(int productId)
+        public IActionResult AddToCart(AllProductsQuaryModel cart)
         {
-
-            var product = data.Products.Where(x => x.Id == productId)
-                         .FirstOrDefault();
-
-            var order = new Order
+            ;
+            if (cart.QuantityBuy <= 0)
             {
+                return RedirectToAction(nameof(Parts));
+            }
+            var product = data.Products
+                .Where(x => x.Id == cart.ProductId)
+                .FirstOrDefault();
 
+            var order = new Order()
+            {
                 OrderNumber = 12,
-                AccountId = 1,
-                Products = new List<Products>()
-
+                Products = new List<Product>()
             };
-
+            product.Quantity -= cart.QuantityBuy;
             order.Products.Add(product);
-
+            
             this.data.Orders.Add(order);
             this.data.SaveChanges();
             return RedirectToAction(nameof(Parts));
@@ -76,7 +82,7 @@ namespace ProjectEverything.Controllers
             }
             var shop = data.Shops.FirstOrDefault();
 
-            var partForm = new Products
+            var partForm = new Product
             {
                 Part = product.Part,
                 Price = product.Price,

@@ -115,3 +115,8 @@ body {
         z-index: 1;
         position: relative;
     }
+.inputQuantity{
+    height: 30px;
+    width: 85px;
+    font-size: 14px;
+}

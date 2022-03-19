@@ -9,11 +9,7 @@ namespace DataBaseevEverythingForHome.Models
         public int Id { get; set; }
         [Required]
         public int OrderNumber { get; init; }
-
-        public int? AccountId { get; set; }
-        public Account Account { get; set; }
-
-        public ICollection<Products> Products { get; set; } = new List<Products>();
+        public ICollection<Product> Products { get; set; } = new List<Product>();
 
     }
 }

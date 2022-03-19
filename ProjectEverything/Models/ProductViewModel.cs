@@ -11,6 +11,7 @@ namespace ProjectEverything.Models
         public decimal Price { get; init; }
      
         public int Quantity { get; set; }
+        public int QuantityBuy { get; set; }
 
         public string Year { get; set; }
    

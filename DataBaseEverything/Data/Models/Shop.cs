@@ -20,7 +20,7 @@ namespace DataBaseevEverythingForHome.Models
         public string Phone { get; set; }
 
         public ICollection<Account> Accounts { get; set; } = new HashSet<Account>();
-        public ICollection<Products> Products { get; set; } = new HashSet<Products>();
+        public ICollection<Product> Products { get; set; } = new HashSet<Product>();
 
     }
 }
