@@ -11,15 +11,13 @@
     @if (SignInManager.IsSignedIn(User))
     {
 
-        var userId = User.GetId();
-        var userIdIs = Users.IsUser(userId);
+ 
 
-        @if (userIdIs)
-        {
+      
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Shop" asp-action="Show" title="Manage">Add Products</a>
             </li>
-        }
+        
 
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>

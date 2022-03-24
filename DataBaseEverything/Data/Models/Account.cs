@@ -19,8 +19,6 @@ namespace DataBaseevEverythingForHome.Models
         [MaxLength(80)]
         public string Address { get; set; }
 
-        public Shop Shop { get; set; }
-
         public ICollection<Order> Orders { get; set; } = new HashSet<Order>();
     }
 }

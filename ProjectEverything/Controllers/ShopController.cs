@@ -88,7 +88,8 @@ namespace ProjectEverything.Controllers
             this.data.SaveChanges();
             return RedirectToAction(nameof(Parts));
         }
-
+        public IActionResult Add() => View();
+        [HttpPost]
         public IActionResult Add(AddPartFormModel product)
         {
             if (!ModelState.IsValid)

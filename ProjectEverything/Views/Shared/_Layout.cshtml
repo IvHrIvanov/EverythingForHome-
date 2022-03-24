@@ -34,12 +34,27 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Contacts</a>
                         </li>
-                        <li class="nav-item">
+
+
+                    </ul>
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item-user  list-unstyled">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Login</a>
+                        </li>
+                        <li class="nav-item-user list-unstyled">
                             <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Register">Register</a>
                         </li>
-                    </ul>
-@*                    <partial name="_LoginPartial" />
-*@                </div>
+                    }
+                    else
+                    {
+                         <li class="nav-item-user list-unstyled">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Logout">Logout</a>
+                        </li>
+                    }
+                    @*                    <partial name="_LoginPartial" />
+                    *@
+                </div>
             </div>
         </nav>
     </header>
