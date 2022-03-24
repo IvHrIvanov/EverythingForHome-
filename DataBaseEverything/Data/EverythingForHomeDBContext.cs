@@ -1,9 +1,10 @@
 ﻿using DataBaseevEverythingForHome.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataBaseevEverythingForHome.Database
 {
-    public class EverythingForHomeDBContext : DbContext
+    public class EverythingForHomeDBContext : IdentityDbContext<Account>
     {
         public EverythingForHomeDBContext()
         {

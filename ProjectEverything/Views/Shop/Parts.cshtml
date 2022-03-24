@@ -37,10 +37,17 @@
                         <div class="form-group">
                             <input asp-for="ProductId" class="visually-hidden" value=@product.Id>
                         </div>
-                        <input class="btn btn-primary r" type="submit" value="Add to Cart">
+                        <input class="btn btn-primary r @(product.Quantity==0 ?"disabled":string.Empty)" type="submit" value="Add to Cart">
                     </form>
-                    <span class="badge bg-primary rounded-pill float-end">Quantity - @product.Quantity </span>
+                    @if (@product.Part.Contains("Cabel"))
+                    {
+                        <span class="badge bg-primary rounded-pill float-end">Quantity - @product.Quantity Meters</span>
 
+                    }
+                    else
+                    {
+                        <span class="badge bg-primary rounded-pill float-end">Quantity - @product.Quantity Piece</span>
+                    }
                 </div>
             </div>
         </div>

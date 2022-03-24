@@ -2,33 +2,40 @@
     ViewData["Title"] = "Cart";
 }
 @model CartAddedProducts
-
+@{
+    decimal totalPrice = 0;
+}
 <div class="row">
     <div class="col-md-12 justify-content-center">
         <ul class="list-group">
-
-            <table class="table table-striped">
-                <tr>
-                    <th>Part</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Description</th>
-                    <th>Total Price</th>
-                </tr>
-                @foreach (var product in @Model.Products)
-                {
+            <h2 class="text-center">
+                Your Orders</h1>
+                <table class="table table-striped">
                     <tr>
-                        <th>@product.Part</th>
-                        <th>@product.Price BGN</th>
-                        <th>@product.Quantity</th>
-                        <th>@product.Description</th>
-                        <th>@(product.Price*product.Quantity) BGN</th>
-
+                        <th>Part</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th></th>
                     </tr>
-                }
-            </table>
-
-
+                    @foreach (var product in @Model.Products)
+                    {
+                        <tr>
+                            <th>@product.Part</th>
+                            <th>@product.Price BGN</th>
+                            <th>@product.QuantityBuy</th>
+                            <th>@product.Description</th>
+                            <th>@(product.Price*product.QuantityBuy) BGN</th>
+                            <th>
+                                <button class="btn btn-primary r">x</button>
+                            </th>
+                        </tr>
+                    }
+                </table>
+                <p class="text-end fw-bold">Total Price - @(totalPrice=Model.Products.Sum(x=>x.Price*x.QuantityBuy)) BGN</p>
         </ul>
+        <button class="btn btn-primary r float-start">Cancel</button>
+        <button class="btn btn-primary r float-end">Confirm Order</button>
     </div>
 </div>

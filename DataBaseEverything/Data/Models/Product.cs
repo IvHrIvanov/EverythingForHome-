@@ -16,6 +16,7 @@ namespace DataBaseevEverythingForHome.Models
         public decimal Price { get; set; } = 0.00m;
         [Required]
         public int Quantity { get; set; } = 0;
+        public int QuantityBuy { get; set; } = 0;
         
         [Required]
         [Url]

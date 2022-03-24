@@ -4,6 +4,7 @@ using DataBaseevEverythingForHome.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ProjectEverything.Migrations
 {
     [DbContext(typeof(EverythingForHomeDBContext))]
-    partial class EverythingForHomeDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220323173537_NewDb")]
+    partial class NewDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

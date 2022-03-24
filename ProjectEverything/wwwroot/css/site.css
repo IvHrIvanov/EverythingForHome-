@@ -22,39 +22,44 @@ html {
     
 }*/
 #example {
-    height:820px;
+    height: 820px;
     background: url(/sklad.jpg);
     background-repeat: no-repeat;
     background-origin: content-box, content-box;
 }
-.card-img-top{
-    width:180px;
-    height:180px;
-    margin-top:20px;
-    margin-left:110px;
-    justify-content:center;
+
+.card-img-top {
+    width: 180px;
+    height: 180px;
+    margin-top: 20px;
+    margin-left: 110px;
+    justify-content: center;
 }
 
 #imgSklad {
     display: flex;
 }
+
 body {
     margin-bottom: 50px;
-
 }
+
 .imageControll {
-    height:200px;
-    width:300px;
+    height: 200px;
+    width: 300px;
 }
 
 .navbar-nav {
     justify-content: center;
-    width: 20%;
+    margin-right: 230px;
 }
 
 .nav-item {
-    margin-left: 30px;
+    justify-content: center;
+    margin-right: 30px;
 }
+
+
 
 .button-48 {
     justify-content: center;
@@ -115,7 +120,8 @@ body {
         z-index: 1;
         position: relative;
     }
-.inputQuantity{
+
+.inputQuantity {
     height: 30px;
     width: 85px;
     font-size: 14px;

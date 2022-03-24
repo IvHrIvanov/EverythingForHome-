@@ -23,7 +23,7 @@ namespace ProjectEverything.Controllers
 
             var order = data.Orders
                 .Include(x => x.Products)
-                .Where(x =>x.Products.Count != 0)
+                .Where(x => x.Products.Count != 0)
                 .ToList();
 
             foreach (var item in order)
@@ -34,6 +34,10 @@ namespace ProjectEverything.Controllers
                 }
             }
             return View(cart);
+        }
+        public IActionResult RemovePart()
+        {
+            return RedirectToAction(nameof(Show));
         }
     }
 }

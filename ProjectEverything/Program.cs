@@ -2,6 +2,8 @@ using DataBaseevEverythingForHome.Database;
 using DataBaseevEverythingForHome.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ProjectEverything.Service.User;
+using ProjectEverything.Service.Users;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,10 +13,18 @@ builder.Services.AddDbContext<EverythingForHomeDBContext>(options =>
     options.UseSqlServer(connectionString, b => b.MigrationsAssembly("ProjectEverything")));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<EverythingForHomeDBContext>();
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddDefaultIdentity<Account>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false;
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+})
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<EverythingForHomeDBContext>();
+builder.Services.AddTransient<IAccountService,AccountService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -43,3 +53,4 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+

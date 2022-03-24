@@ -56,18 +56,34 @@ namespace ProjectEverything.Controllers
             {
                 return RedirectToAction(nameof(Parts));
             }
+            var order = new Order();
+            var accountOrder = data.Accounts
+                .Include(x => x.Orders)
+                .Where(x => x.Id == "1")
+                .ToList()
+                .FirstOrDefault();
+
+            if (accountOrder.Orders.Count == 0)
+            {
+                int nextOrder = accountOrder.Orders.Sum(x => x.OrderNumber);
+                order = new Order()
+                {
+
+                    OrderNumber = nextOrder + 1,
+                    Products = new List<Product>()
+                };
+            }
             var product = data.Products
                 .Where(x => x.Id == cart.ProductId)
                 .FirstOrDefault();
 
-            var order = new Order()
-            {
-                OrderNumber = 12,
-                Products = new List<Product>()
-            };
+
+            accountOrder.Id = "1";
             product.Quantity -= cart.QuantityBuy;
+            product.QuantityBuy += cart.QuantityBuy;
             order.Products.Add(product);
-            
+            accountOrder.Orders.Add(order);
+            this.data.Accounts.Add(accountOrder);
             this.data.Orders.Add(order);
             this.data.SaveChanges();
             return RedirectToAction(nameof(Parts));
