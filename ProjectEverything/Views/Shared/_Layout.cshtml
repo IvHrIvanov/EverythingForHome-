@@ -48,7 +48,11 @@
                     }
                     else
                     {
-                         <li class="nav-item-user list-unstyled">
+                        <li class="list-unstyled">
+                            Hello @User.Identity.Name
+                        </li>
+                        <li class="nav-item-user list-unstyled">
+
                             <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Logout">Logout</a>
                         </li>
                     }

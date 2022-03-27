@@ -1,5 +1,6 @@
 ﻿using DataBaseevEverythingForHome.Database;
 using DataBaseevEverythingForHome.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectEverything.Models;
@@ -32,7 +33,6 @@ namespace ProjectEverything.Controllers
             var parts = partsQuaryable
                 .Skip((quary.CurrentPage - 1) * AllProductsQuaryModel.PartsPerPage)
                 .Take(AllProductsQuaryModel.PartsPerPage)
-
                 .Select(x => new ProductViewModel
                 {
                     Id = x.Id,
@@ -90,6 +90,7 @@ namespace ProjectEverything.Controllers
         }
         public IActionResult Add() => View();
         [HttpPost]
+        [Authorize]
         public IActionResult Add(AddPartFormModel product)
         {
             if (!ModelState.IsValid)

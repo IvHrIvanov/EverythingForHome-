@@ -14,6 +14,7 @@ namespace ProjectEverything.Controllers
         {
             this.userMenager = userMenager;
             this.signInManager = signInManager;
+         
         }
 
         public IActionResult Register() => View();
