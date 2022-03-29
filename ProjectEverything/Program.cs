@@ -3,6 +3,8 @@ using DataBaseevEverythingForHome.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ProjectEverything.Infrastucture;
+using ProjectEverything.Service;
+using ProjectEverything.Service.Shop;
 using ProjectEverything.Service.User;
 using ProjectEverything.Service.Users;
 
@@ -26,11 +28,10 @@ builder.Services.AddDefaultIdentity<Account>(options =>
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<EverythingForHomeDBContext>();
 builder.Services.AddTransient<IAccountService, AccountService>();
+builder.Services.AddTransient<IProductService, ProductService>();
 var app = builder.Build();
 
-
 app.PrepareDatabase();
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -4,6 +4,7 @@ using DataBaseevEverythingForHome.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ProjectEverything.Migrations
 {
     [DbContext(typeof(EverythingForHomeDBContext))]
-    partial class EverythingForHomeDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220328234722_Add")]
+    partial class Add
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,6 +118,10 @@ namespace ProjectEverything.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AccountId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AccountId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("OrderNumber")
@@ -123,7 +129,10 @@ namespace ProjectEverything.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountId");
+                    b.HasIndex("AccountId")
+                        .IsUnique();
+
+                    b.HasIndex("AccountId1");
 
                     b.ToTable("Orders");
                 });
@@ -314,8 +323,14 @@ namespace ProjectEverything.Migrations
             modelBuilder.Entity("DataBaseevEverythingForHome.Models.Order", b =>
                 {
                     b.HasOne("DataBaseevEverythingForHome.Models.Account", null)
+                        .WithOne()
+                        .HasForeignKey("DataBaseevEverythingForHome.Models.Order", "AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataBaseevEverythingForHome.Models.Account", null)
                         .WithMany("Orders")
-                        .HasForeignKey("AccountId");
+                        .HasForeignKey("AccountId1");
                 });
 
             modelBuilder.Entity("DataBaseevEverythingForHome.Models.Product", b =>

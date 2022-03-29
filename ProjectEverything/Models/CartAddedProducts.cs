@@ -8,6 +8,6 @@ namespace ProjectEverything.Models
         public int AccountId { get; init; }
         public int Quantity { get; init; }
         public Product Product { get; set; }
-        public ICollection<Product> Products { get; set; }
+        public ICollection<Product> Products { get; set; } = new List<Product>();
     }
 }

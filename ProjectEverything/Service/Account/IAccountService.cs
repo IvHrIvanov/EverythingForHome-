@@ -1,7 +1,12 @@
-﻿namespace ProjectEverything.Service.Users
+﻿using DataBaseevEverythingForHome.Models;
+
+namespace ProjectEverything.Service.Users
 {
     public interface IAccountService
     {
-        public bool IsUser(string userId);
+         bool IsUser(string userId);
+
+        Account User(string userId);
+
     }
 }

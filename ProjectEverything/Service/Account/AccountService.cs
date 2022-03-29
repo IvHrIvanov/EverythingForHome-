@@ -1,4 +1,5 @@
 ﻿using DataBaseevEverythingForHome.Database;
+using DataBaseevEverythingForHome.Models;
 using ProjectEverything.Service.Users;
 
 namespace ProjectEverything.Service.User
@@ -14,5 +15,10 @@ namespace ProjectEverything.Service.User
             => this.data
             .Accounts
             .Any(x => x.Id == userId);
+
+        public Account User(string userId)
+        => this.data.Accounts
+            .Where(x => x.Id == userId)
+            .FirstOrDefault();
     }
 }

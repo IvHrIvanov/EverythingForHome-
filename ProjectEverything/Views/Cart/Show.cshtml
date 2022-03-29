@@ -1,15 +1,26 @@
-﻿@{
+﻿@using DataBaseevEverythingForHome.Models
+@using Microsoft.AspNetCore.Identity
+@using ProjectEverything.Infrastucture
+@{
     ViewData["Title"] = "Cart";
 }
 @model CartAddedProducts
 @{
     decimal totalPrice = 0;
 }
+@inject SignInManager<Account> SignInManager
+
+
+
+
 <div class="row">
     <div class="col-md-12 justify-content-center">
         <ul class="list-group">
             <h2 class="text-center">
-                Your Orders</h1>
+                Your Orders
+            </h2>
+            @if (SignInManager.IsSignedIn(User))
+            {
                 <table class="table table-striped">
                     <tr>
                         <th>Part</th>
@@ -34,6 +45,7 @@
                     }
                 </table>
                 <p class="text-end fw-bold">Total Price - @(totalPrice=Model.Products.Sum(x=>x.Price*x.QuantityBuy)) BGN</p>
+            }
         </ul>
         <button class="btn btn-primary r float-start">Cancel</button>
         <button class="btn btn-primary r float-end">Confirm Order</button>

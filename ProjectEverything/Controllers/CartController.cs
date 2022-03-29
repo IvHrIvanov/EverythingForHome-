@@ -1,7 +1,9 @@
 ﻿using DataBaseevEverythingForHome.Database;
 using DataBaseevEverythingForHome.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ProjectEverything.Infrastucture;
 using ProjectEverything.Models;
 using System.Linq;
 
@@ -10,6 +12,7 @@ namespace ProjectEverything.Controllers
     public class CartController : Controller
     {
         private readonly EverythingForHomeDBContext data;
+        private readonly SignInManager<Account> signInManager;
 
 
         public CartController(EverythingForHomeDBContext data)
@@ -18,21 +21,32 @@ namespace ProjectEverything.Controllers
         }
 
         public IActionResult Show([FromQuery] CartAddedProducts cart)
-        {
-            cart.Products = new List<Product>();
 
-            var order = data.Orders
-                .Include(x => x.Products)
-                .Where(x => x.Products.Count != 0)
+        {
+            
+            var id = this.User.GetId();
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var order = data.Users
+                .Where(x => x.Id == id)
+                .Include(x => x.Orders)
+                .ThenInclude(x => x.Products)
                 .ToList();
+
 
             foreach (var item in order)
             {
-                foreach (var currentProduct in item.Products)
+                foreach (var currentOrder in item.Orders)
                 {
-                    cart.Products.Add(currentProduct);
+                    foreach (var product in currentOrder.Products)
+                    {
+                        cart.Products.Add(product);
+                    }
                 }
             }
+            ;
             return View(cart);
         }
         public IActionResult RemovePart()

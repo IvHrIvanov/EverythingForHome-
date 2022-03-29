@@ -25,9 +25,5 @@ namespace DataBaseevEverythingForHome.Models
         [MinLength(5)]
         [MaxLength(225)]
         public string Description { get; set; }
-        public int ShopId { get; set; }
-        public Shop Shop { get; set; }
-
-
     }
 }

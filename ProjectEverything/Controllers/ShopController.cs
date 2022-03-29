@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectEverything.Models;
 using ProjectEverything.Models.ElectricPart;
+using ProjectEverything.Service.Shop;
 using System.Linq;
 
 namespace ProjectEverything.Controllers
@@ -12,11 +13,12 @@ namespace ProjectEverything.Controllers
     public class ShopController : Controller
     {
         private readonly EverythingForHomeDBContext data;
+        private readonly IShopService products;
 
-        public ShopController(EverythingForHomeDBContext data)
+        public ShopController(EverythingForHomeDBContext data, IShopService products)
         {
             this.data = data;
-
+            this.products = products;
         }
         public IActionResult Parts([FromQuery] AllProductsQuaryModel quary)
         {
@@ -51,7 +53,7 @@ namespace ProjectEverything.Controllers
 
         public IActionResult AddToCart(AllProductsQuaryModel cart)
         {
-            ;
+
             if (cart.QuantityBuy <= 0)
             {
                 return RedirectToAction(nameof(Parts));
@@ -90,28 +92,23 @@ namespace ProjectEverything.Controllers
         }
         public IActionResult Add() => View();
         [HttpPost]
-        [Authorize]
         public IActionResult Add(AddPartFormModel product)
         {
             if (!ModelState.IsValid)
             {
-
                 return View(product);
             }
-            var shop = data.Shops.FirstOrDefault();
 
-            var partForm = new Product
-            {
-                Part = product.Part,
-                Price = product.Price,
-                Quantity = product.Quantity,
-                Description = product.Description,
-                ImageUrl = product.ImageUrl,
-                Year = product.Year,
-                ShopId = shop.Id
-            };
-            this.data.Products.Add(partForm);
-            this.data.SaveChanges();
+            var partId = this.products.Create
+                (
+                product.Part,
+                product.Year,
+                product.Price,
+                product.Quantity,
+                product.ImageUrl,
+                product.Description
+                );
+
             return RedirectToAction(nameof(Add));
         }
     }
