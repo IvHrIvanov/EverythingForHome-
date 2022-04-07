@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectEverything.Infrastucture;
 using ProjectEverything.Models;
-using System.Linq;
+using ProjectEverything.Service.Carts;
 
 namespace ProjectEverything.Controllers
 {
@@ -13,17 +13,18 @@ namespace ProjectEverything.Controllers
     {
         private readonly EverythingForHomeDBContext data;
         private readonly SignInManager<Account> signInManager;
+        private readonly ICartService cartService;
 
 
-        public CartController(EverythingForHomeDBContext data)
+        public CartController(EverythingForHomeDBContext data, ICartService cartService)
         {
             this.data = data;
+            this.cartService = cartService;
         }
 
-        public IActionResult Show([FromQuery] CartAddedProducts cart)
-
+        public IActionResult CartProduct([FromQuery] CartProducts cart)
         {
-            
+
             var id = this.User.GetId();
             if (id == null)
             {
@@ -49,9 +50,12 @@ namespace ProjectEverything.Controllers
             ;
             return View(cart);
         }
-        public IActionResult RemovePart()
+        public IActionResult RemovePart(CartProducts cart)
         {
-            return RedirectToAction(nameof(Show));
+            var user = cartService.AccountById(cart.AccountId);
+            var product = cartService.ProductById(cart.ProductId);
+            cartService.RemoveProductFromOrder(user, product);        
+            return RedirectToAction(nameof(CartProduct));
         }
     }
 }

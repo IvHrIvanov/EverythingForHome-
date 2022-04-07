@@ -1,6 +1,8 @@
 ﻿using DataBaseevEverythingForHome.Database;
 using DataBaseevEverythingForHome.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ProjectEverything.Infrastucture;
 using ProjectEverything.Models;
 using ProjectEverything.Models.ElectricPart;
 using ProjectEverything.Service.Shop;
@@ -12,13 +14,16 @@ namespace ProjectEverything.Controllers
     {
         private readonly IProductService productService;
         private readonly IAccountService accountService;
-        public ProductController(IProductService products, IAccountService accountService)
+        public readonly EverythingForHomeDBContext data;
+        private const string adminRole = "Administrator";
+        public ProductController(IProductService productService, IAccountService accountService, EverythingForHomeDBContext data)
         {
 
-            this.productService = products;
+            this.productService = productService;
             this.accountService = accountService;
+            this.data = data;
         }
-        public IActionResult Parts([FromQuery] QuaryModel quary)
+        public IActionResult Product([FromQuery] QuaryModel quary)
         {
 
             var partsQuaryable = this.productService.Products();
@@ -28,20 +33,7 @@ namespace ProjectEverything.Controllers
                 partsQuaryable = this.productService.AllProducts(quary.SearchTerm);
 
             }
-            var parts = partsQuaryable
-                .Skip((quary.CurrentPage - 1) * QuaryModel.PartsPerPage)
-                .Take(QuaryModel.PartsPerPage)
-                .Select(x => new ProductViewModel
-                {
-                    Id = x.Id,
-                    Part = x.Part,
-                    Price = x.Price,
-                    ImageUrl = x.ImageUrl,
-                    Quantity = x.Quantity,
-                    Description = x.Description,
-                    Year = x.Year
-                })
-                .ToList();
+            var parts = productService.ProductModel(partsQuaryable,quary);
 
             quary.Products = parts;
             return View(quary);
@@ -51,7 +43,7 @@ namespace ProjectEverything.Controllers
         {
             if (cart.QuantityBuy <= 0)
             {
-                return RedirectToAction(nameof(Parts));
+                return RedirectToAction(nameof(Product));
             }
             var order = new Order();
             var account = accountService.User(cart.AccountId);
@@ -67,13 +59,18 @@ namespace ProjectEverything.Controllers
             }
             var product = this.productService.Product(cart.ProductId);
             this.productService.ProductToCart(order, product, account, cart.QuantityBuy);
-            return RedirectToAction(nameof(Parts));
+            return RedirectToAction(nameof(Product));
         }
 
         public IActionResult Add() => View();
         [HttpPost]
-        public IActionResult Add(AddPartFormModel product)
+        [Authorize]
+        public IActionResult Add(ProductFormModel product)
         {
+            if (!User.IsInRole(adminRole))
+            {
+                return Unauthorized();
+            }
 
             if (!ModelState.IsValid)
             {
@@ -90,5 +87,41 @@ namespace ProjectEverything.Controllers
                  );
             return RedirectToAction(nameof(Add));
         }
+        [Authorize]
+        public IActionResult RemoveProductFromDB(QuaryModel product)
+        {
+            if (!User.IsInRole(adminRole))
+            {
+                return Unauthorized();
+            }
+
+
+            var productData = data.Products.Where(x => x.Id == product.ProductId).FirstOrDefault();
+            data.Products.Remove(productData);
+            data.SaveChanges();
+            return RedirectToAction("Parts", "Product");
+        }
+        [Authorize]
+        public IActionResult Edit(QuaryModel quary)
+        {
+
+            if (!User.IsInRole(adminRole))
+            {
+                return Unauthorized();
+            }
+
+            var productData = productService.ProductById(quary.ProductId);
+
+            return View(new ProductFormModel
+            {
+                Part = productData.Part,
+                Year = productData.Year,
+                Price = productData.Price,
+                Quantity = productData.Quantity,
+                ImageUrl = productData.ImageUrl,
+                Description = productData.Description
+            });
+        }
+
     }
 }

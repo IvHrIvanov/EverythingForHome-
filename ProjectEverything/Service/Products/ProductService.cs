@@ -1,5 +1,6 @@
 ﻿using DataBaseevEverythingForHome.Database;
 using DataBaseevEverythingForHome.Models;
+using ProjectEverything.Models;
 using ProjectEverything.Service.Shop;
 
 namespace ProjectEverything.Service
@@ -12,6 +13,22 @@ namespace ProjectEverything.Service
         {
             this.data = data;
         }
+
+       public List<ProductViewModel> ProductModel(IQueryable<Product> partsQuaryable, QuaryModel quary)
+            => partsQuaryable
+                .Skip((quary.CurrentPage - 1) * QuaryModel.PartsPerPage)
+                .Take(QuaryModel.PartsPerPage)
+                .Select(x => new ProductViewModel
+                {
+                    Id = x.Id,
+                    Part = x.Part,
+                    Price = x.Price,
+                    ImageUrl = x.ImageUrl,
+                    Quantity = x.Quantity,
+                    Description = x.Description,
+                    Year = x.Year
+                })
+                .ToList();
 
 
         public void Create(string part, string year, decimal price, int quantity, string imageUrl, string description)
@@ -40,7 +57,7 @@ namespace ProjectEverything.Service
             product.QuantityBuy += quantityBuy;
             order.Products.Add(product);
             account.Orders.Add(order);
-            
+
             this.data.Orders.Add(order);
             this.data.SaveChanges();
         }
@@ -49,5 +66,8 @@ namespace ProjectEverything.Service
                   .Where(x => x.Part.Contains(searchTerm));
         public IQueryable<Product> Products()
         => data.Products.AsQueryable();
+
+        public Product ProductById(int productId)
+            => data.Products.Where(x => x.Id == productId).FirstOrDefault();
     }
 }

@@ -1,4 +1,5 @@
-﻿using DataBaseevEverythingForHome.Models;
+﻿using DataBaseevEverythingForHome.Database;
+using DataBaseevEverythingForHome.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProjectEverything.Models;
@@ -9,12 +10,12 @@ namespace ProjectEverything.Controllers
     {
         private readonly UserManager<Account> userMenager;
         private readonly SignInManager<Account> signInManager;
-
-        public UserController(UserManager<Account> userMenager, SignInManager<Account> signInManager)
+        public readonly EverythingForHomeDBContext data;
+        public UserController(UserManager<Account> userMenager, SignInManager<Account> signInManager, EverythingForHomeDBContext data)
         {
             this.userMenager = userMenager;
             this.signInManager = signInManager;
-         
+            this.data = data;
         }
 
         public IActionResult Register() => View();
@@ -67,13 +68,13 @@ namespace ProjectEverything.Controllers
             await this.signInManager.SignInAsync(loggedUser, true);
             return RedirectToAction("Index", "Home");
         } 
-        public async Task<IActionResult> Logout(LoginFormModel user)
+        public async Task<IActionResult> Logout()
         {
-            
             await signInManager.SignOutAsync();
           
             return RedirectToAction("Index", "Home");
         }
+
     }
 
 }
