@@ -3,6 +3,8 @@ using DataBaseevEverythingForHome.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProjectEverything.Models;
+using ProjectEverything.Service.Carts;
+using ProjectEverything.Service.Users;
 
 namespace ProjectEverything.Controllers
 {
@@ -10,12 +12,12 @@ namespace ProjectEverything.Controllers
     {
         private readonly UserManager<Account> userMenager;
         private readonly SignInManager<Account> signInManager;
-        public readonly EverythingForHomeDBContext data;
-        public UserController(UserManager<Account> userMenager, SignInManager<Account> signInManager, EverythingForHomeDBContext data)
+        private readonly IAccountService accountService;
+        public UserController(UserManager<Account> userMenager, SignInManager<Account> signInManager, IAccountService accountService)
         {
             this.userMenager = userMenager;
             this.signInManager = signInManager;
-            this.data = data;
+            this.accountService = accountService;
         }
 
         public IActionResult Register() => View();
@@ -26,15 +28,7 @@ namespace ProjectEverything.Controllers
             {
                 return View(user);
             }
-            var registerAccount = new Account()
-            {
-                UserName = user.Email,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Town = user.Town,
-                Address = user.Address,
-            };
+            var registerAccount = accountService.CraeateAccount(user);
             var result = await this.userMenager.CreateAsync(registerAccount, user.Password);
             if (!result.Succeeded)
             {

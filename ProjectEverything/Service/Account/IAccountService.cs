@@ -1,4 +1,5 @@
 ﻿using DataBaseevEverythingForHome.Models;
+using ProjectEverything.Models;
 
 namespace ProjectEverything.Service.Users
 {
@@ -7,6 +8,6 @@ namespace ProjectEverything.Service.Users
          bool IsUser(string userId);
 
         Account User(string userId);
-
+        Account CraeateAccount(RegisterFormModel user);
     }
 }

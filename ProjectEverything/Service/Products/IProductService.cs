@@ -20,5 +20,7 @@ namespace ProjectEverything.Service.Shop
         IQueryable<Product> AllProducts(string searchTerm);
         public List<ProductViewModel> ProductModel(IQueryable<Product> partsQuaryable, QuaryModel quary);
         public Product ProductById(int productId);
+        public Order CreateOrder(Account account);
+        public void ProductRemoveDB(QuaryModel product);
     }
 }

@@ -11,14 +11,13 @@ namespace ProjectEverything.Controllers
 {
     public class CartController : Controller
     {
-        private readonly EverythingForHomeDBContext data;
         private readonly SignInManager<Account> signInManager;
         private readonly ICartService cartService;
 
 
-        public CartController(EverythingForHomeDBContext data, ICartService cartService)
+        public CartController(ICartService cartService)
         {
-            this.data = data;
+
             this.cartService = cartService;
         }
 
@@ -30,31 +29,17 @@ namespace ProjectEverything.Controllers
             {
                 return NotFound();
             }
-            var order = data.Users
-                .Where(x => x.Id == id)
-                .Include(x => x.Orders)
-                .ThenInclude(x => x.Products)
-                .ToList();
+            var order = cartService.GetAccounts(id);
 
+            cartService.AddProductsToCart(order, cart);
 
-            foreach (var item in order)
-            {
-                foreach (var currentOrder in item.Orders)
-                {
-                    foreach (var product in currentOrder.Products)
-                    {
-                        cart.Products.Add(product);
-                    }
-                }
-            }
-            ;
             return View(cart);
         }
         public IActionResult RemovePart(CartProducts cart)
         {
             var user = cartService.AccountById(cart.AccountId);
             var product = cartService.ProductById(cart.ProductId);
-            cartService.RemoveProductFromOrder(user, product);        
+            cartService.RemoveProductFromOrder(user, product);
             return RedirectToAction(nameof(CartProduct));
         }
     }

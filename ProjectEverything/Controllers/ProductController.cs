@@ -14,14 +14,13 @@ namespace ProjectEverything.Controllers
     {
         private readonly IProductService productService;
         private readonly IAccountService accountService;
-        public readonly EverythingForHomeDBContext data;
         private const string adminRole = "Administrator";
-        public ProductController(IProductService productService, IAccountService accountService, EverythingForHomeDBContext data)
+        public ProductController(IProductService productService, IAccountService accountService)
         {
 
             this.productService = productService;
             this.accountService = accountService;
-            this.data = data;
+
         }
         public IActionResult Product([FromQuery] QuaryModel quary)
         {
@@ -33,7 +32,7 @@ namespace ProjectEverything.Controllers
                 partsQuaryable = this.productService.AllProducts(quary.SearchTerm);
 
             }
-            var parts = productService.ProductModel(partsQuaryable,quary);
+            var parts = productService.ProductModel(partsQuaryable, quary);
 
             quary.Products = parts;
             return View(quary);
@@ -45,18 +44,8 @@ namespace ProjectEverything.Controllers
             {
                 return RedirectToAction(nameof(Product));
             }
-            var order = new Order();
             var account = accountService.User(cart.AccountId);
-
-            if (account.Orders.Count == 0)
-            {
-                int nextOrder = account.Orders.Sum(x => x.OrderNumber);
-                order = new Order()
-                {
-                    OrderNumber = nextOrder + 1,
-                    Products = new List<Product>()
-                };
-            }
+            var order = productService.CreateOrder(account);
             var product = this.productService.Product(cart.ProductId);
             this.productService.ProductToCart(order, product, account, cart.QuantityBuy);
             return RedirectToAction(nameof(Product));
@@ -94,11 +83,7 @@ namespace ProjectEverything.Controllers
             {
                 return Unauthorized();
             }
-
-
-            var productData = data.Products.Where(x => x.Id == product.ProductId).FirstOrDefault();
-            data.Products.Remove(productData);
-            data.SaveChanges();
+            productService.ProductRemoveDB(product);
             return RedirectToAction("Parts", "Product");
         }
         [Authorize]
@@ -107,7 +92,6 @@ namespace ProjectEverything.Controllers
 
             if (!User.IsInRole(adminRole))
             {
-                return Unauthorized();
             }
 
             var productData = productService.ProductById(quary.ProductId);
@@ -124,4 +108,5 @@ namespace ProjectEverything.Controllers
         }
 
     }
+
 }

@@ -22,6 +22,12 @@ namespace ProjectEverything.Service.Carts
                 .Select(x => x)
                 .FirstOrDefault();
 
+        public List<Account> GetAccounts(string id)=> data.Users
+                .Where(x => x.Id == id)
+                .Include(x => x.Orders)
+                .ThenInclude(x => x.Products)
+                .ToList();
+
         public Product ProductById(int productId)
             => data.Products.Where(x => x.Id == productId).FirstOrDefault();
 
