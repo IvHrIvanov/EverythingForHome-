@@ -1,4 +1,5 @@
-﻿@using ProjectEverything.Infrastucture
+﻿@using ProjectEverything.Constants
+@using ProjectEverything.Infrastucture
 @using DataBaseevEverythingForHome.Models
 @using Microsoft.AspNetCore.Identity
 @using ProjectEverything.Service.Users
@@ -51,14 +52,14 @@
                         </div>
 
                         <input class="btn btn-primary r @(product.Quantity==0 ?"disabled":string.Empty)" type="submit" value="Add to Cart">
-                        @if (User.IsInRole("Administrator"))
+                        @if (User.IsInRole(AdminRole.adminRole))
                         {
                             <input asp-for="ProductId" class="visually-hidden" value=@product.Id>
                             <input asp-controller="Product" asp-action="Edit" class="btn btn-primary r" type="submit" value="Edit">
                             <input asp-controller="Product" asp-action="RemoveProductFromDB" class="btn btn-primary r" type="submit" value="Remove">
                         }
                     </form>
-                    @if (@product.Part.Contains("Cabel"))
+                    @if (@product.Part.Contains(ProductConst.CABEL))
                     {
                         <span class="badge bg-primary rounded-pill float-end">Quantity - @product.Quantity Meters</span>
 

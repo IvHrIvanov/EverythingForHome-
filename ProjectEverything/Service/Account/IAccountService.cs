@@ -7,7 +7,7 @@ namespace ProjectEverything.Service.Users
     {
          bool IsUser(string userId);
 
-        Account User(string userId);
+        Account GetUser(string userId);
         Account CraeateAccount(RegisterFormModel user);
     }
 }

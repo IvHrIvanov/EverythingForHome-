@@ -1,6 +1,4 @@
-﻿using DataBaseevEverythingForHome.Database;
-using DataBaseevEverythingForHome.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ProjectEverything.Models;
 using System.Diagnostics;
 

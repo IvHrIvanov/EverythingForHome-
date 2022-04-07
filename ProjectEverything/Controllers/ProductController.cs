@@ -1,7 +1,6 @@
-﻿using DataBaseevEverythingForHome.Database;
-using DataBaseevEverythingForHome.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ProjectEverything.Constants;
 using ProjectEverything.Infrastucture;
 using ProjectEverything.Models;
 using ProjectEverything.Models.ElectricPart;
@@ -14,7 +13,7 @@ namespace ProjectEverything.Controllers
     {
         private readonly IProductService productService;
         private readonly IAccountService accountService;
-        private const string adminRole = "Administrator";
+
         public ProductController(IProductService productService, IAccountService accountService)
         {
 
@@ -44,7 +43,8 @@ namespace ProjectEverything.Controllers
             {
                 return RedirectToAction(nameof(Product));
             }
-            var account = accountService.User(cart.AccountId);
+            var accountId = User.GetId();
+            var account = accountService.GetUser(accountId);
             var order = productService.CreateOrder(account);
             var product = this.productService.Product(cart.ProductId);
             this.productService.ProductToCart(order, product, account, cart.QuantityBuy);
@@ -53,13 +53,9 @@ namespace ProjectEverything.Controllers
 
         public IActionResult Add() => View();
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = AdminRole.adminRole)]
         public IActionResult Add(ProductFormModel product)
         {
-            if (!User.IsInRole(adminRole))
-            {
-                return Unauthorized();
-            }
 
             if (!ModelState.IsValid)
             {
@@ -76,24 +72,16 @@ namespace ProjectEverything.Controllers
                  );
             return RedirectToAction(nameof(Add));
         }
-        [Authorize]
+        [Authorize(Roles = AdminRole.adminRole)]
         public IActionResult RemoveProductFromDB(QuaryModel product)
         {
-            if (!User.IsInRole(adminRole))
-            {
-                return Unauthorized();
-            }
+
             productService.ProductRemoveDB(product);
             return RedirectToAction("Parts", "Product");
         }
-        [Authorize]
+        [Authorize(Roles = AdminRole.adminRole)]
         public IActionResult Edit(QuaryModel quary)
         {
-
-            if (!User.IsInRole(adminRole))
-            {
-            }
-
             var productData = productService.ProductById(quary.ProductId);
 
             return View(new ProductFormModel

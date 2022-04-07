@@ -1,9 +1,7 @@
-﻿using DataBaseevEverythingForHome.Database;
-using DataBaseevEverythingForHome.Models;
+﻿using DataBaseevEverythingForHome.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProjectEverything.Models;
-using ProjectEverything.Service.Carts;
 using ProjectEverything.Service.Users;
 
 namespace ProjectEverything.Controllers

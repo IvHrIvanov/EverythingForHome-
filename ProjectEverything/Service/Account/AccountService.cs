@@ -29,7 +29,7 @@ namespace ProjectEverything.Service.User
             .Accounts
             .Any(x => x.Id == userId);
 
-        public Account User(string userId)
+        public Account GetUser(string userId)
         => this.data.Accounts
             .Where(x => x.Id == userId)
             .FirstOrDefault();

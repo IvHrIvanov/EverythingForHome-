@@ -14,7 +14,6 @@ namespace ProjectEverything.Service.Carts
             this.data = data;
         }
 
-
         public Account AccountById(string accountId) => data.Users
                 .Include(x => x.Orders)
                 .ThenInclude(x => x.Products)

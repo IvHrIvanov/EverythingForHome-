@@ -1,8 +1,6 @@
-﻿using DataBaseevEverythingForHome.Database;
-using DataBaseevEverythingForHome.Models;
+﻿using DataBaseevEverythingForHome.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ProjectEverything.Infrastucture;
 using ProjectEverything.Models;
 using ProjectEverything.Service.Carts;
@@ -23,7 +21,6 @@ namespace ProjectEverything.Controllers
 
         public IActionResult CartProduct([FromQuery] CartProducts cart)
         {
-
             var id = this.User.GetId();
             if (id == null)
             {
@@ -35,6 +32,7 @@ namespace ProjectEverything.Controllers
 
             return View(cart);
         }
+
         public IActionResult RemovePart(CartProducts cart)
         {
             var user = cartService.AccountById(cart.AccountId);

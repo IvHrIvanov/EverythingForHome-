@@ -2,12 +2,12 @@
 using DataBaseevEverythingForHome.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ProjectEverything.Constants;
 
 namespace ProjectEverything.Infrastucture
 {
     public static class ApplicationBuilderExtensions
     {
-        private static string AdministratorRoleName = "Administrator";
         public static IApplicationBuilder PrepareDatabase(
              this IApplicationBuilder app)
         {
@@ -32,12 +32,12 @@ namespace ProjectEverything.Infrastucture
             Task
                 .Run(async () =>
                 {
-                    if (await roleManager.RoleExistsAsync(AdministratorRoleName))
+                    if (await roleManager.RoleExistsAsync(AdminRole.adminRole))
                     {
                         return;
                     }
 
-                    var role = new IdentityRole { Name = AdministratorRoleName };
+                    var role = new IdentityRole { Name = AdminRole.adminRole };
 
                     await roleManager.CreateAsync(role);
 
@@ -49,9 +49,9 @@ namespace ProjectEverything.Infrastucture
                         Email = adminEmail,
                         UserName = adminEmail,
                         FirstName = "Admin",
-                        LastName="Admin",
-                        Town="Provadia",
-                        Address="Ivv"
+                        LastName = "Admin",
+                        Town = "Provadia",
+                        Address = "Ivv"
                     };
 
                     await userManager.CreateAsync(user, adminPassword);
