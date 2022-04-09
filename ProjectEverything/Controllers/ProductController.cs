@@ -32,7 +32,7 @@ namespace ProjectEverything.Controllers
 
             }
             var parts = productService.ProductModel(partsQuaryable, quary);
-
+            ViewBag.Allproducts = parts;
             quary.Products = parts;
             return View(quary);
         }
@@ -75,7 +75,6 @@ namespace ProjectEverything.Controllers
         [Authorize(Roles = AdminRole.adminRole)]
         public IActionResult RemoveProductFromDB(QuaryModel product)
         {
-
             productService.ProductRemoveDB(product);
             return RedirectToAction("Parts", "Product");
         }

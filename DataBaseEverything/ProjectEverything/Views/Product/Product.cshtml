@@ -1,0 +1,90 @@
+﻿@using ProjectEverything.Constants
+@using ProjectEverything.Infrastucture
+@using DataBaseevEverythingForHome.Models
+@using Microsoft.AspNetCore.Identity
+@using ProjectEverything.Service.Users
+@using ProjectEverything.Infrastucture
+
+@{
+    ViewData["Title"] = "Products";
+    
+}
+@inject SignInManager<Account> SignInManager
+
+@model QuaryModel
+@{
+    int quantity = 0;
+}
+<div class="row">
+
+    <form method="get">
+        <div class="form-group col-md-3">
+            <div class="form-group">
+                <label asp-for="SearchTerm"></label>
+                <input asp-for="SearchTerm" class="form-control" placeholder="Cabel,Boiler..." />
+            </div>
+        </div>
+        <input type="submit" class="btn btn-primary mt-2" value="Search" />
+    </form>
+</div>
+<div class="row">
+    @foreach (var product in Model.Products)
+    {
+        <div class="sizeCard col-md-4">
+            <h2 class="text-center mt-4">@product.Part</h2><span class="badge bg-secondary mb-2">New</span>
+            <div class="card">
+                <img src="@product.ImageUrl" class="card-img-top" alt="@product.Part">
+                <div class="card-body">
+                    <p class="card-text">Price - @product.Price BGN</p>
+                    <p class="card-text">Yaer - @product.Year</p>
+                    <p class="card-text">Description - @product.Description</p>
+                    <form asp-controller="Product" asp-action="AddToCart" method="post">
+                        <div class="form-group">
+                            <label asp-for="QuantityBuy">Quantity</label>
+                            <input asp-for="QuantityBuy" class="inputQuantity form-control mb-2 mt-1" min="0" placeholder="Quantity...">
+                            <span asp-validation-for="QuantityBuy" class="small text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            @if (SignInManager.IsSignedIn(User) && Model.Products.Count() != 0)
+                            {
+                                <input asp-for="AccountId" class="visually-hidden" value=@User.GetId()>
+                            }
+                            <input asp-for="ProductId" class="visually-hidden" value=@product.Id>
+                        </div>
+
+                        <input class="btn btn-primary r @(product.Quantity==0 ?"disabled":string.Empty)" type="submit" value="Add to Cart">
+                        @if (User.IsInRole(AdminRole.adminRole))
+                        {
+                            <input asp-for="ProductId" class="visually-hidden" value=@product.Id>
+                            <input asp-controller="Product" asp-action="Edit" class="btn btn-danger" type="submit" value="Edit">
+                            <input asp-controller="Product" asp-action="RemoveProductFromDB"  class="btn btn-danger" type="submit" value="Remove"/>
+                        }
+                    </form>
+                    @if (@product.Part.Contains(ProductConst.CABEL))
+                    {
+                        <span class="badge bg-primary rounded-pill float-end">Quantity - @product.Quantity Meters</span>
+
+                    }
+                    else
+                    {
+                        <span class="badge bg-primary rounded-pill float-end">Quantity - @product.Quantity Piece</span>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="row">
+
+    <div class="col-md-6">
+        <a class="btn btn-primary @(Model.CurrentPage==1 ?"disabled":string.Empty) mt-3" asp-controller="Product" asp-action="Parts" asp-route-currentPage="@(Model.CurrentPage-1)"><<</a>
+    </div>
+
+
+    <div class="col-md-6">
+        <a class="btn btn-primary @(Model.CurrentPage==Model.Products.Count()/QuaryModel.PartsPerPage ?string.Empty:"disabled") float-right mt-3" asp-controller="Product" asp-action="Parts" asp-route-currentPage="@(Model.CurrentPage+1)">>></a>
+    </div>
+</div>
+
+

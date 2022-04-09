@@ -7,6 +7,7 @@
 
 @{
     ViewData["Title"] = "Products";
+    
 }
 @inject SignInManager<Account> SignInManager
 
@@ -55,8 +56,8 @@
                         @if (User.IsInRole(AdminRole.adminRole))
                         {
                             <input asp-for="ProductId" class="visually-hidden" value=@product.Id>
-                            <input asp-controller="Product" asp-action="Edit" class="btn btn-primary r" type="submit" value="Edit">
-                            <input asp-controller="Product" asp-action="RemoveProductFromDB" class="btn btn-primary r" type="submit" value="Remove">
+                            <input asp-controller="Product" asp-action="Edit" class="btn btn-danger" type="submit" value="Edit">
+                            <input asp-controller="Product" asp-action="RemoveProductFromDB"  class="btn btn-danger" type="submit" value="Remove"/>
                         }
                     </form>
                     @if (@product.Part.Contains(ProductConst.CABEL))
