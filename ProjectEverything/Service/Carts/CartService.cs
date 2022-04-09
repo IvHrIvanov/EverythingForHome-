@@ -21,11 +21,16 @@ namespace ProjectEverything.Service.Carts
                 .Select(x => x)
                 .FirstOrDefault();
 
-        public List<Account> GetAccounts(string id)=> data.Users
-                .Where(x => x.Id == id)
-                .Include(x => x.Orders)
-                .ThenInclude(x => x.Products)
-                .ToList();
+        public void ShowProductsOnCart(Account account, CartProducts cart)
+        {                  
+                foreach (var currentOrder in account.Orders)
+                {
+                    foreach (var product in currentOrder.Products)
+                    {
+                        cart.Products.Add(product);
+                    }
+                }         
+        }
 
         public Product ProductById(int productId)
             => data.Products.Where(x => x.Id == productId).FirstOrDefault();

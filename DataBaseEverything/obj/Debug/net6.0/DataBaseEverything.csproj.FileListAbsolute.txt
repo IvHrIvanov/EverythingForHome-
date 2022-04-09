@@ -1,0 +1,14 @@
+C:\Users\Ivan\source\repos\ProjectEverything\DataBaseEverything\bin\Debug\net6.0\DataBaseEverything.deps.json
+C:\Users\Ivan\source\repos\ProjectEverything\DataBaseEverything\bin\Debug\net6.0\DataBaseEverything.runtimeconfig.json
+C:\Users\Ivan\source\repos\ProjectEverything\DataBaseEverything\bin\Debug\net6.0\DataBaseEverything.dll
+C:\Users\Ivan\source\repos\ProjectEverything\DataBaseEverything\bin\Debug\net6.0\DataBaseEverything.pdb
+C:\Users\Ivan\source\repos\ProjectEverything\DataBaseEverything\obj\Debug\net6.0\DataBaseEverything.csproj.AssemblyReference.cache
+C:\Users\Ivan\source\repos\ProjectEverything\DataBaseEverything\obj\Debug\net6.0\DataBaseEverything.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Ivan\source\repos\ProjectEverything\DataBaseEverything\obj\Debug\net6.0\DataBaseEverything.AssemblyInfoInputs.cache
+C:\Users\Ivan\source\repos\ProjectEverything\DataBaseEverything\obj\Debug\net6.0\DataBaseEverything.AssemblyInfo.cs
+C:\Users\Ivan\source\repos\ProjectEverything\DataBaseEverything\obj\Debug\net6.0\DataBaseEverything.csproj.CoreCompileInputs.cache
+C:\Users\Ivan\source\repos\ProjectEverything\DataBaseEverything\obj\Debug\net6.0\DataBaseEverything.dll
+C:\Users\Ivan\source\repos\ProjectEverything\DataBaseEverything\obj\Debug\net6.0\ref\DataBaseEverything.dll
+C:\Users\Ivan\source\repos\ProjectEverything\DataBaseEverything\obj\Debug\net6.0\DataBaseEverything.pdb
+C:\Users\Ivan\source\repos\ProjectEverything\DataBaseEverything\obj\Debug\net6.0\DataBaseEverything.genruntimeconfig.cache
+C:\Users\Ivan\source\repos\ProjectEverything\DataBaseEverything\obj\Debug\net6.0\refint\DataBaseEverything.dll

@@ -77,44 +77,128 @@ namespace EverythingForHome.Test.ProductServiceTest
             var productService = new ProductService(data);
             productService.ProductById(productId);
         }
-        //[Fact]
-        //public void IsCreatedOrder()
-        //{
-        //    using var data = DatabaseMock.Instance;
-        //    var productService = new ProductService(data);
-        //    Product product = new Product()
-        //    {
-        //        Id = 1,
-        //        Part = "Cabel",
-        //        Description = "Dadadadadadadad",
-        //        ImageUrl = "https://www.pyramis.gr/inst/pyramis_6/gallery/product_photos/028058101.jpg",
-        //        Year = "2020"
-        //    };
-        //    data.Products.Add(product);
-        //    data.SaveChanges();
-        //    var allProducts = data.Products.Select(x=>x);
-        //    QuaryModel quary = new QuaryModel()
-        //    {
-        //        Products = allProducts
-        //    };
-        //    productService.ProductRemoveDB(product.Id);
+        [Fact]
+        public void IsRemovedFromDb()
+        {
+            using var data = DatabaseMock.Instance;
+            var productService = new ProductService(data);
+            Product product = new Product()
+            {
+                Id = 1,
+                Part = "Cabel",
+                Description = "Dadadadadadadad",     
+                Price=2.4m,
+                Quantity=1,
+                ImageUrl = "https://www.pyramis.gr/inst/pyramis_6/gallery/product_photos/028058101.jpg",
+                Year = "2020"
+            };
+            data.Products.Add(product);
+            data.SaveChanges();
+            QuaryModel quaryModel = new QuaryModel()
+            {
+                ProductId=product.Id,
+                QuantityBuy=2,
+                SearchTerm="Cabel",
+                AccountId="1",
 
-        //}
-        
+                Products= new List<ProductViewModel>()
+            };
+            productService.ProductRemoveDB(quaryModel);
+        }
+        [Fact]
+        public void IsCreatedOrder()
+        {
+            using var data = DatabaseMock.Instance;
+            var productService = new ProductService(data);
+            Product product = new Product()
+            {
+                Id = 1,
+                Part = "Cabel",
+                Description = "Dadadadadadadad",
+                ImageUrl = "https://www.pyramis.gr/inst/pyramis_6/gallery/product_photos/028058101.jpg",
+                Year = "2020"
+            };
+            data.Products.Add(product);
+            data.SaveChanges();
+            var allProducts = data.Products.Select(x => x);
+            Account account = new Account()
+            {
+                FirstName = "ivan",
+                LastName = "ivanov",
+                Email = "ddsada@dab.bg",
+                Town = "prd",
+                Orders = new List<Order>()
+                
+            };
+            
+            productService.CreateOrder(account);
+        }
+        [Fact]
+        public void IsCreatedOrderWithOrders()
+        {
+            using var data = DatabaseMock.Instance;
+            var productService = new ProductService(data);
+            Product product = new Product()
+            {
+                Id = 1,
+                Part = "Cabel",
+                Description = "Dadadadadadadad",
+                ImageUrl = "https://www.pyramis.gr/inst/pyramis_6/gallery/product_photos/028058101.jpg",
+                Year = "2020"
+            };
+            data.Products.Add(product);
+            data.SaveChanges();
+            var allProducts = data.Products.Select(x => x);
+            Account account = new Account()
+            {
+                FirstName = "ivan",
+                LastName = "ivanov",
+                Email = "ddsada@dab.bg",
+                Town = "prd",
+                Orders = new List<Order>()
+
+            };
+            Order order = new Order();
+            account.Orders.Add(order);
+            productService.CreateOrder(account);
+        }
+        [Fact]
+        public void IsAddedProductToCart()
+        {
+            using var data = DatabaseMock.Instance;
+            var productService = new ProductService(data);
+            int quantityBuy = 2;
+            Product product = new Product()
+            {
+                Id = 1,
+                Part = "Cabel",
+                Description = "Dadadadadadadad",
+                ImageUrl = "https://www.pyramis.gr/inst/pyramis_6/gallery/product_photos/028058101.jpg",
+                Year = "2020",
+                Quantity = 50,
+                Price=222
+            };
+            Account account = new Account()
+            {
+                FirstName = "ivan",
+                LastName = "ivanov",
+                Email = "ddsada@dab.bg",
+                Town = "prd",
+                
+                Orders = new List<Order>()
+
+            };
+            Order order = new Order()
+            {
+                Id=1,
+                OrderNumber=222,
+                Products = new List<Product>()
+            };
+            productService.ProductToCart(order, product, account, quantityBuy);
+        }
 
 
 
     }
 }
-//[Theory]
-//[InlineData]
-//public void IsAddeDToCart()
-//{
-//    using var data = DatabaseMock.Instance;
-//    var productService = new ProductService(data);
-//    Order order = new Order();
-//    Account account = new Account();
-//    Product product = new Product();
-//    int quantityBuy = 2;
-//    productService.ProductToCart(order,product,account,quantityBuy);
-//}
+

@@ -1,0 +1,16 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "76f4612b-64c7-40c8-9657-a8375e99de7d": {
+      "ProjectGuid": "76f4612b-64c7-40c8-9657-a8375e99de7d",
+      "DisplayName": "DataBaseEverything",
+      "ColorIndex": 0
+    },
+    "5e193ee4-f32e-43cc-9c0c-2d2f5f1889fb": {
+      "ProjectGuid": "5e193ee4-f32e-43cc-9c0c-2d2f5f1889fb",
+      "DisplayName": "ProjectEverything",
+      "ColorIndex": 1
+    }
+  },
+  "NextColorIndex": 2
+}

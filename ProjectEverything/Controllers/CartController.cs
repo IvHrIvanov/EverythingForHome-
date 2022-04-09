@@ -26,9 +26,9 @@ namespace ProjectEverything.Controllers
             {
                 return NotFound();
             }
-            var order = cartService.GetAccounts(id);
+            var order = cartService.AccountById(id);
 
-            cartService.AddProductsToCart(order, cart);
+            cartService.ShowProductsOnCart(order, cart);
 
             return View(cart);
         }
