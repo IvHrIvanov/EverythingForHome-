@@ -17,7 +17,7 @@
     <div class="col-md-12 justify-content-center">
         <ul class="list-group">
             <h2 class="text-center">
-                Your Orders
+                Your products
             </h2>
             @if (SignInManager.IsSignedIn(User))
             {
@@ -54,6 +54,7 @@
             }
         </ul>
         <button class="btn btn-primary r float-start">Cancel</button>
-        <button class="btn btn-primary r float-end">Confirm Order</button>
+        
+        <a asp-controller="Order" asp-action="Order" class="btn btn-primary r float-end">Confirm Order</a>
     </div>
 </div>

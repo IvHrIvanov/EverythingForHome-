@@ -31,7 +31,7 @@ namespace ProjectEverything.Service
                  .ToList();
 
 
-        public void Create(string part, string year, decimal price, int quantity, string imageUrl, string description)
+        public async void Create(string part, string year, decimal price, int quantity, string imageUrl, string description)
         {
             var productData = new Product
             {
@@ -43,15 +43,15 @@ namespace ProjectEverything.Service
                 Description = description
             };
             this.data.Products.Add(productData);
-            this.data.SaveChanges();
+            this.data.SaveChangesAsync();
         }
 
-        public Product Product(int productId)
+        public  Product Product(int productId)
                  => this.data.Products.
                  Where(x => x.Id == productId)
                 .FirstOrDefault();
 
-        public void ProductToCart(Order order, Product product, Account account, int quantityBuy)
+        public async void ProductToCart(Order order, Product product, Account account, int quantityBuy)
         {
             product.Quantity -= quantityBuy;
             product.QuantityBuy += quantityBuy;
@@ -59,7 +59,7 @@ namespace ProjectEverything.Service
             account.Orders.Add(order);
 
             this.data.Orders.Add(order);
-            this.data.SaveChanges();
+            this.data.SaveChangesAsync();
         }
         public IQueryable<Product> AllProducts(string searchTerm)
             => data.Products

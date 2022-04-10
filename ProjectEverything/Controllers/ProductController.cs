@@ -6,6 +6,7 @@ using ProjectEverything.Models;
 using ProjectEverything.Models.ElectricPart;
 using ProjectEverything.Service.Shop;
 using ProjectEverything.Service.Users;
+using static ProjectEverything.WebConstants;
 
 namespace ProjectEverything.Controllers
 {
@@ -48,13 +49,14 @@ namespace ProjectEverything.Controllers
             var order = productService.CreateOrder(account);
             var product = this.productService.Product(cart.ProductId);
             this.productService.ProductToCart(order, product, account, cart.QuantityBuy);
+
             return RedirectToAction(nameof(Product));
         }
 
         public IActionResult Add() => View();
         [HttpPost]
         [Authorize(Roles = AdminRole.adminRole)]
-        public IActionResult Add(ProductFormModel product)
+        public async Task<IActionResult> Add(ProductFormModel product)
         {
 
             if (!ModelState.IsValid)
@@ -70,13 +72,16 @@ namespace ProjectEverything.Controllers
                  product.ImageUrl,
                  product.Description
                  );
+            TempData[GlobalMessage] = $"You Add/Edit Product {product.Part}";
+
             return RedirectToAction(nameof(Add));
         }
         [Authorize(Roles = AdminRole.adminRole)]
-        public IActionResult RemoveProductFromDB(QuaryModel product)
+        public async Task<IActionResult> RemoveProductFromDB(QuaryModel product)
         {
             productService.ProductRemoveDB(product);
-            return RedirectToAction("Parts", "Product");
+
+            return RedirectToAction("Product", "Product");
         }
         [Authorize(Roles = AdminRole.adminRole)]
         public IActionResult Edit(QuaryModel quary)

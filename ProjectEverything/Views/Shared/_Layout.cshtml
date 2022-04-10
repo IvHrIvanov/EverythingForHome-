@@ -27,7 +27,10 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Contacts</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Contacts">Contacts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="About" asp-action="Company">About</a>
                         </li>
                         @if (User.Identity.IsAuthenticated)
                         {
@@ -36,7 +39,6 @@
                             </li>
                         }
                     </ul>
-
                     @if (!User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item-user  list-unstyled">
@@ -64,14 +66,14 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Logout">Logout</a>
                         </li>
                     }
-                    @*                    <partial name="_LoginPartial" />
-                    *@
+
                 </div>
             </div>
         </nav>
     </header>
 
     <div class="container">
+        
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -79,7 +81,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; @DateTime.UtcNow.Year - ProjectEverything - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; @DateTime.UtcNow.Year - ProjectEverything
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -16,12 +16,14 @@ namespace ProjectEverything.Service.User
         public Account CraeateAccount(RegisterFormModel user)
             => new Account()
             {
+          
                 UserName = user.Email,
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Town = user.Town,
                 Address = user.Address,
+
             };
 
         public bool IsUser(string userId)

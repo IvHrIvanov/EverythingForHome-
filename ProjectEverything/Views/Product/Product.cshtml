@@ -7,7 +7,7 @@
 
 @{
     ViewData["Title"] = "Products";
-    
+
 }
 @inject SignInManager<Account> SignInManager
 
@@ -16,9 +16,13 @@
     int quantity = 0;
 }
 <div class="row">
-
+     @if (TempData.ContainsKey(WebConstants.GlobalMessage))
+            {
+                <div class="alert alert-success" role="alert">@TempData[WebConstants.GlobalMessage] </div>
+            }
     <form method="get">
         <div class="form-group col-md-3">
+           
             <div class="form-group">
                 <label asp-for="SearchTerm"></label>
                 <input asp-for="SearchTerm" class="form-control" placeholder="Cabel,Boiler..." />
@@ -40,8 +44,6 @@
                     <p class="card-text">Description - @product.Description</p>
                     <form asp-controller="Product" asp-action="AddToCart" method="post">
                         <div class="form-group">
-                            <label asp-for="QuantityBuy">Quantity</label>
-                            <input asp-for="QuantityBuy" class="inputQuantity form-control mb-2 mt-1" min="0" placeholder="Quantity...">
                             <span asp-validation-for="QuantityBuy" class="small text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -51,13 +53,21 @@
                             }
                             <input asp-for="ProductId" class="visually-hidden" value=@product.Id>
                         </div>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <label asp-for="QuantityBuy">Quantity</label>
+                            <input asp-for="QuantityBuy" class="inputQuantity form-control mb-2 mt-1" min="0" max="@product.Quantity" placeholder="Quantity...">
 
-                        <input class="btn btn-primary r @(product.Quantity==0 ?"disabled":string.Empty)" type="submit" value="Add to Cart">
+                            <input class="btn btn-primary r @(product.Quantity==0 ?"disabled":string.Empty)" type="submit" value="Add to Cart">
+
+
+                        }
                         @if (User.IsInRole(AdminRole.adminRole))
                         {
+
                             <input asp-for="ProductId" class="visually-hidden" value=@product.Id>
                             <input asp-controller="Product" asp-action="Edit" class="btn btn-danger" type="submit" value="Edit">
-                            <input asp-controller="Product" asp-action="RemoveProductFromDB"  class="btn btn-danger" type="submit" value="Remove"/>
+                            <input asp-controller="Product" asp-action="RemoveProductFromDB" class="btn btn-danger" type="submit" value="Remove" />
                         }
                     </form>
                     @if (@product.Part.Contains(ProductConst.CABEL))
