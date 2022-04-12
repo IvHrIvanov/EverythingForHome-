@@ -24,11 +24,10 @@
         <div class="form-group col-md-3">
            
             <div class="form-group">
-                <label asp-for="SearchTerm"></label>
                 <input asp-for="SearchTerm" class="form-control" placeholder="Cabel,Boiler..." />
             </div>
         </div>
-        <input type="submit" class="btn btn-primary mt-2" value="Search" />
+        <input type="submit" class="btn btn-primary" value="Search" />
     </form>
 </div>
 <div class="row">
@@ -57,14 +56,10 @@
                         {
                             <label asp-for="QuantityBuy">Quantity</label>
                             <input asp-for="QuantityBuy" class="inputQuantity form-control mb-2 mt-1" min="0" max="@product.Quantity" placeholder="Quantity...">
-
                             <input class="btn btn-primary r @(product.Quantity==0 ?"disabled":string.Empty)" type="submit" value="Add to Cart">
-
-
                         }
                         @if (User.IsInRole(AdminRole.adminRole))
                         {
-
                             <input asp-for="ProductId" class="visually-hidden" value=@product.Id>
                             <input asp-controller="Product" asp-action="Edit" class="btn btn-danger" type="submit" value="Edit">
                             <input asp-controller="Product" asp-action="RemoveProductFromDB" class="btn btn-danger" type="submit" value="Remove" />
@@ -73,7 +68,6 @@
                     @if (@product.Part.Contains(ProductConst.CABEL))
                     {
                         <span class="badge bg-primary rounded-pill float-end">Quantity - @product.Quantity Meters</span>
-
                     }
                     else
                     {
@@ -90,11 +84,7 @@
     <div class="col-md-6">
         <a class="btn btn-primary @(Model.CurrentPage==1 ?"disabled":string.Empty) mt-3" asp-controller="Product" asp-action="Parts" asp-route-currentPage="@(Model.CurrentPage-1)"><<</a>
     </div>
-
-
     <div class="col-md-6">
         <a class="btn btn-primary @(Model.CurrentPage==Model.Products.Count()/QuaryModel.PartsPerPage ?string.Empty:"disabled") float-right mt-3" asp-controller="Product" asp-action="Parts" asp-route-currentPage="@(Model.CurrentPage+1)">>></a>
     </div>
 </div>
-
-

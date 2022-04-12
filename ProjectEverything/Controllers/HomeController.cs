@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProjectEverything.Models;
 using System.Diagnostics;
+using System.Net;
+using System.Net.Mail;
 
 namespace ProjectEverything.Controllers
 {
@@ -11,11 +13,9 @@ namespace ProjectEverything.Controllers
             return View();
         }
 
-        public IActionResult About()
+        public IActionResult Contacts()
         {
-            return View();
-        }public IActionResult Contacts()
-        {
+        
             return View();
         }
 
@@ -24,5 +24,6 @@ namespace ProjectEverything.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
     }
 }

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "f9lZjDRL3+Xi6v2IBRqJVLBmzS1JWRJB+DAVBtJmxv8=",
+  "Hash": "XMnxhW82R3vtGTYvwMICxXultO7CySNWICzKFoll9+k=",
   "Source": "ProjectEverything",
   "BasePath": "_content/ProjectEverything",
   "Mode": "Default",
@@ -1103,6 +1103,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Everything.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Ivan\\source\\repos\\ProjectEverything\\ProjectEverything\\wwwroot\\EverythingForHome.jpg",
+      "SourceId": "ProjectEverything",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Ivan\\source\\repos\\ProjectEverything\\ProjectEverything\\wwwroot\\",
+      "BasePath": "_content/ProjectEverything",
+      "RelativePath": "EverythingForHome.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\EverythingForHome.jpg"
     },
     {
       "Identity": "C:\\Users\\Ivan\\source\\repos\\ProjectEverything\\ProjectEverything\\wwwroot\\favicon.ico",
