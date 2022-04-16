@@ -1,6 +1,6 @@
 ﻿using DataBaseevEverythingForHome.Models;
 using EverythingForHome.Test.Mock;
-using ProjectEverything;
+using Microsoft.AspNetCore.Authentication;
 using ProjectEverything.Controllers;
 using ProjectEverything.Models;
 using ProjectEverything.Models.ElectricPart;
@@ -12,6 +12,8 @@ namespace EverythingForHome.Test.Controllers
 {
     public class ProductControllerTest
     {
+        private static string CABEL = "Cabel";
+        private static string BOILER = "Boiler";
         [Fact]
         public void IsProductSearchIsNull()
         {
@@ -19,15 +21,9 @@ namespace EverythingForHome.Test.Controllers
             var productService = new ProductService(data);
             var acountService = new AccountService(data);
             var productController = new ProductController(productService, acountService);
-            string findProduct = "Cabel";
-            Product product = new Product()
-            {
-                Id = 1,
-                Part = findProduct,
-                Description = "BEST CABEL EVER!",
-                ImageUrl = "https://www.pyramis.gr/inst/pyramis_6/gallery/product_photos/028058101.jpg",
-                Year = "2020"
-            };
+            string findProduct = CABEL;
+            var product = CreateProduct();
+
             data.Products.Add(product);
             data.SaveChanges();
 
@@ -44,20 +40,14 @@ namespace EverythingForHome.Test.Controllers
             var productService = new ProductService(data);
             var acountService = new AccountService(data);
             var productController = new ProductController(productService, acountService);
-            string findProduct = "Cabel";
-            Product product = new Product()
-            {
-                Id = 1,
-                Part = findProduct,
-                Description = "BEST CABEL EVER!",
-                ImageUrl = "https://www.pyramis.gr/inst/pyramis_6/gallery/product_photos/028058101.jpg",
-                Year = "2020"
-            };
+            string findProduct = CABEL;
+            var product = CreateProduct();
+
             data.Products.Add(product);
             data.SaveChanges();
             QuaryModel quary = new QuaryModel()
             {
-                SearchTerm = "Cabel"
+                SearchTerm = CABEL
             };
             productController.AllProducts(quary);
 
@@ -84,28 +74,10 @@ namespace EverythingForHome.Test.Controllers
             var productService = new ProductService(data);
             var acountService = new AccountService(data);
             var productController = new ProductController(productService, acountService);
-            string findProduct = "Cabell";
-            Product product = new Product()
-            {
-                Id = 1,
-                Part = findProduct,
-                Price = 2,
-                Quantity = 1,
-                Description = "BEST  EVER!",
-                ImageUrl = "https://www.pyramis.gr/inst/pyramis_6/gallery/product_photos/028058101.jpg",
-                Year = "2021"
-            };
-            ProductFormModel formModel = new ProductFormModel()
-            {
+            string findProduct = CABEL;
+            var product = CreateProduct();
 
-                Part = product.Part,
-                Description = product.Description,
-                ImageUrl = product.ImageUrl,
-                Year = product.Year,
-                Price = product.Price,
-                Quantity = 1
-
-            };
+            ProductFormModel formModel = CreateProductForMModel(product);
             productController.CreateProduct(formModel);
         }
         [Fact]
@@ -115,21 +87,9 @@ namespace EverythingForHome.Test.Controllers
             var productService = new ProductService(data);
             var acountService = new AccountService(data);
             var productController = new ProductController(productService, acountService);
-            Product product = new Product()
-            {
-                Id = 1,
-                Part = "Cabel",
-                Price = 2,
-                Quantity = 1,
-                Description = "BEST  EVER!",
-                ImageUrl = "https://www.pyramis.gr/inst/pyramis_6/gallery/product_photos/028058101.jpg",
-                Year = "2021"
-            };
-            QuaryModel quaryModel = new QuaryModel()
-            {
-                ProductId = product.Id,
+            var product = CreateProduct();
 
-            };
+            QuaryModel quaryModel = CreateProduct(product);
             data.Products.Add(product);
             data.SaveChanges();
             productController.RemoveProductFromDB(quaryModel);
@@ -141,29 +101,17 @@ namespace EverythingForHome.Test.Controllers
             var productService = new ProductService(data);
             var acountService = new AccountService(data);
             var productController = new ProductController(productService, acountService);
-            Product product = new Product()
-            {
-                Id = 1,
-                Part = "Cabel",
-                Price = 2,
-                Quantity = 1,
-                Description = "BEST  EVER!",
-                ImageUrl = "https://www.pyramis.gr/inst/pyramis_6/gallery/product_photos/028058101.jpg",
-                Year = "2021"
-            };
-            QuaryModel quaryModel = new QuaryModel()
-            {
-                ProductId = product.Id,
+            var product = CreateProduct();
 
-            };
-            data.Products.Add(product);
-            data.SaveChanges();
+            QuaryModel quaryModel = CreateProduct( product);
+
             productController.EditProduct(quaryModel);
         }
 
         [Fact]
         public void IsModelNotValid()
         {
+
             using var data = DatabaseMock.Instance;
             var productService = new ProductService(data);
             var acountService = new AccountService(data);
@@ -171,7 +119,7 @@ namespace EverythingForHome.Test.Controllers
 
             ProductFormModel formModel = new ProductFormModel()
             {
-                Part = "Boiler"
+                Part = BOILER
             };
 
             productController.CreateProduct(formModel);
@@ -188,44 +136,42 @@ namespace EverythingForHome.Test.Controllers
             productController.UpdateProduct(updateProduct);
         }
 
-        //[Fact]
-        //public void IsControllerAddProductToCart()
-        //{
-        //    using var data = DatabaseMock.Instance;
-        //    string findProduct = "Cabel";
-        //    Product product = new Product()
-        //    {
-        //        Id = 1,
-        //        Part = findProduct,
-        //        Description = "BEST CABEL EVER!",
-        //        ImageUrl = "https://www.pyramis.gr/inst/pyramis_6/gallery/product_photos/028058101.jpg",
-        //        Year = "2020"
-        //    };
-        //    Account account = new Account()
-        //    {
-        //        FirstName = "ivan",
-        //        LastName = "ivanov",
-        //        Email = "ddsada@dab.bg",
-        //        Town = "prd",
-        //        Address = "prd",
-        //        Orders = new List<Order>()
 
-        //    };
-        //    data.Products.Add(product);
-        //    data.Accounts.Add(account);
-        //    data.SaveChanges();
+        private QuaryModel CreateProduct(Product product)
+        {
+            return new QuaryModel()
+            {
+                ProductId = product.Id,
 
-        //    var productService = new ProductService(data);
-        //    var acountService = new AccountService(data);
-        //    var productController = new ProductController(productService, acountService);
-        //    QuaryModel quary = new QuaryModel()
-        //    {
-        //        AccountId = "1",
-        //        QuantityBuy = 1,
+            };
+        }
+        private Product CreateProduct()
+        {
+            return new Product()
+            {
+                Id = 1,
+                Part = CABEL,
+                Price = 2,
+                Quantity = 1,
+                Description = "BEST  EVER!",
+                ImageUrl = "https://www.pyramis.gr/inst/pyramis_6/gallery/product_photos/028058101.jpg",
+                Year = "2021"
+            };
+        }
+        private ProductFormModel CreateProductForMModel(Product product)
+        {
+            return new ProductFormModel()
+            {
 
-        //    };
-        //    productController.AddToCart(quary);
+                Part = product.Part,
+                Description = product.Description,
+                ImageUrl = product.ImageUrl,
+                Year = product.Year,
+                Price = product.Price,
+                Quantity = 1
 
-        //}
+            };
+        }
+
     }
 }

@@ -26,19 +26,41 @@ namespace ProjectEverything.Controllers
             {
                 return NotFound();
             }
-            var order = cartService.AccountById(id);
+            try
+            {
+                var order = cartService.AccountById(id);
 
-            cartService.ShowProductsOnCart(order, cart);
+                cartService.ShowProductsOnCart(order, cart);
 
-            return View(cart);
+                return View(cart);
+            }
+            catch (ArgumentNullException)
+            {
+
+                throw new ArgumentNullException("Account cannot be find");
+            }
+            catch (Exception)
+            {
+                throw new InvalidOperationException("Cannot show products on cart");
+            }
+
         }
 
         public IActionResult RemovePart(CartProducts cart)
         {
-            var user = cartService.AccountById(cart.AccountId);
-            var product = cartService.ProductById(cart.ProductId);
-            cartService.RemoveProductFromOrder(user, product);
-            return RedirectToAction(nameof(CartProduct));
+            try
+            {
+                var user = cartService.AccountById(cart.AccountId);
+                var product = cartService.ProductById(cart.ProductId);
+                cartService.RemoveProductFromOrder(user, product);
+                return RedirectToAction(nameof(CartProduct));
+            }
+            catch (ArgumentNullException)
+            {
+
+                throw new ArgumentNullException("User or product not registered");
+            }
+
         }
     }
 }

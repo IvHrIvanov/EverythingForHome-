@@ -16,30 +16,48 @@ namespace ProjectEverything.Service
 
         public async void RemoveProductsFromCartToUser(string userId)
         {
-            var orderData = data.Accounts.Include(x => x.Orders).ThenInclude(x => x.Products).Where(x => x.Id == userId).FirstOrDefault();
-            foreach (var order in orderData.Orders)
+            try
+            {
+                var orderData = data.Accounts.Include(x => x.Orders).ThenInclude(x => x.Products).Where(x => x.Id == userId).FirstOrDefault();
+                foreach (var order in orderData.Orders)
+                {
+
+                    data.Orders.Remove(order);
+                }
+                data.SaveChangesAsync();
+            }
+            catch (Exception)
             {
 
-                data.Orders.Remove(order);
+                throw new InvalidOperationException("Some data is wrong!");
             }
-            data.SaveChangesAsync();
+      
         }
         public async void RemoveFromCartReturnQuantityOfProducts(string userId)
         {
-            var orderData = data.Accounts.Include(x => x.Orders).ThenInclude(x => x.Products).Where(x => x.Id == userId).FirstOrDefault();
-            foreach (var order in orderData.Orders)
+            try
             {
-                foreach (var product in order.Products)
+                var orderData = data.Accounts.Include(x => x.Orders).ThenInclude(x => x.Products).Where(x => x.Id == userId).FirstOrDefault();
+                foreach (var order in orderData.Orders)
                 {
-                    var productForUpdate = data.Products.Where(x => x.Id == product.Id).FirstOrDefault();
-                    productForUpdate.Quantity += product.QuantityBuy;
-                    productForUpdate.QuantityBuy = 0;
-                    productForUpdate.Price=product.Price;
+                    foreach (var product in order.Products)
+                    {
+                        var productForUpdate = data.Products.Where(x => x.Id == product.Id).FirstOrDefault();
+                        productForUpdate.Quantity += product.QuantityBuy;
+                        productForUpdate.QuantityBuy = 0;
+                        productForUpdate.Price = product.Price;
                         data.Products.Update(productForUpdate);
+                    }
+                    data.Orders.Remove(order);
                 }
-                data.Orders.Remove(order);
+                data.SaveChangesAsync();
             }
-            data.SaveChangesAsync();
+            catch (Exception)
+            {
+
+                throw new InvalidOperationException("Some data is wrong!");
+            }
+
         }
 
     }

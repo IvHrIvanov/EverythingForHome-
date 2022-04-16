@@ -22,16 +22,8 @@ namespace EverythingForHome.Test.Service
         {
             using var data = DatabaseMock.Instance;
             var accountService = new AccountService(data);
-            Account account = new Account()
-            {
-                FirstName = "ivan",
-                LastName = "ivanov",
-                Email = "ddsada@dab.bg",
-                Town = "prd",
-                Address = "prd",
-                Orders = new List<Order>()
+            var account = CreateAccount();
 
-            };
             data.Accounts.Add(account);
             data.SaveChanges();
             var result = accountService.GetUser(account.Id);
@@ -42,16 +34,8 @@ namespace EverythingForHome.Test.Service
         {
             using var data = DatabaseMock.Instance;
             var accountService = new AccountService(data);
-            Account account = new Account()
-            {
-                FirstName = "ivan",
-                LastName = "ivanov",
-                Email = "ddsada@dab.bg",
-                Town = "prd",
-                Address = "prd",
-                Orders = new List<Order>()
+            var account = CreateAccount();
 
-            };
             data.Accounts.Add(account);
             data.SaveChanges();
             var result = accountService.IsUser(account.Id);
@@ -62,16 +46,8 @@ namespace EverythingForHome.Test.Service
         {
             using var data = DatabaseMock.Instance;
             var accountService = new AccountService(data);
-            Account account = new Account()
-            {
-                FirstName = "ivan",
-                LastName = "ivanov",
-                Email = "ddsada@dab.bg",
-                Town = "prd",
-                Address = "prd",
-                Orders = new List<Order>()
+            var account = CreateAccount();
 
-            };
             var result = accountService.IsUser(account.Id);
             Assert.False(result);
         }
@@ -80,17 +56,8 @@ namespace EverythingForHome.Test.Service
         {
             using var data = DatabaseMock.Instance;
             var accountService = new AccountService(data);
-            Account account = new Account()
-            {
+            var account = CreateAccount();
 
-                UserName = "ddsada@dab.bg",
-                Email = "ddsada@dab.bg",
-                FirstName = "ivan",
-                LastName = "ivanov",
-                Town = "prd",
-                Address = "prd",
-
-            };
             RegisterFormModel register = new RegisterFormModel()
             {
 
@@ -108,17 +75,7 @@ namespace EverythingForHome.Test.Service
         {
             using var data = DatabaseMock.Instance;
             var accountService = new AccountService(data);
-            Account account = new Account()
-            {
-
-                UserName = "ddsada@dab.bg",
-                Email = "ddsada@dab.bg",
-                FirstName = "ivan",
-                LastName = "ivanov",
-                Town = "prd",
-                Address = "prd",
-
-            };
+            var account = CreateAccount();
             data.Accounts.Add(account);
             data.SaveChanges();
             LoginFormModel login = new LoginFormModel()
@@ -129,6 +86,19 @@ namespace EverythingForHome.Test.Service
             var currentAccount = data.Accounts.Select(x => x).FirstOrDefault();
 
             Assert.NotNull(currentAccount);
-        }       
+        }
+        private Account CreateAccount()
+        {
+            return  new Account()
+            {
+                UserName = "Ivan@abv.bg",
+                Email = "Ivan@abv.bg",
+                FirstName = "ivan",
+                LastName = "ivanov",
+                Town = "Provadia",
+                Address = "HG",
+
+            };
+        }
     }
 }

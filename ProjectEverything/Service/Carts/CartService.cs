@@ -22,14 +22,23 @@ namespace ProjectEverything.Service.Carts
                 .FirstOrDefault();
 
         public void ShowProductsOnCart(Account account, CartProducts cart)
-        {                  
+        {
+            try
+            {
                 foreach (var currentOrder in account.Orders)
                 {
                     foreach (var product in currentOrder.Products)
                     {
                         cart.Products.Add(product);
                     }
-                }         
+                }
+            }
+            catch (Exception)
+            {
+
+                throw new InvalidOperationException("Product or Account was with wrong data!");
+            }
+                      
         }
 
         public Product ProductById(int productId)
@@ -37,18 +46,27 @@ namespace ProjectEverything.Service.Carts
 
         public void RemoveProductFromOrder(Account account, Product product)
         {
-            foreach (var order in account.Orders)
+            try
             {
-                if (order.Products.Contains(product))
+                foreach (var order in account.Orders)
                 {
-                    product.Quantity += product.QuantityBuy;
-                    product.QuantityBuy = 0;
-                    data.Products.Update(product);
-                    data.Orders.Remove(order);
-                    data.SaveChanges();
-                    break;
+                    if (order.Products.Contains(product))
+                    {
+                        product.Quantity += product.QuantityBuy;
+                        product.QuantityBuy = 0;
+                        data.Products.Update(product);
+                        data.Orders.Remove(order);
+                        data.SaveChanges();
+                        break;
+                    }
                 }
             }
+            catch (Exception)
+            {
+
+                throw new InvalidOperationException("Account or product have a problem!");
+            }
+       
         }
     }
 }

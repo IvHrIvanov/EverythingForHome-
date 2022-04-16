@@ -17,17 +17,35 @@ namespace ProjectEverything.Controllers
 
         public IActionResult Order()
         {
-            TempData[GlobalMessage] = $"Thank you for Purchase";
-          
-            orderService.RemoveProductsFromCartToUser(GetUserId());
-            return View();
+            try
+            {
+                TempData[GlobalMessage] = $"Thank you for Purchase";
+                orderService.RemoveProductsFromCartToUser(GetUserId());
+                return View();
+            }
+            catch (Exception)
+            {
+
+                throw new InvalidOperationException("User or products not valid");
+            }
+
         }
         public IActionResult CancelOrder()
         {
-            orderService.RemoveFromCartReturnQuantityOfProducts(GetUserId());
-            return RedirectToAction("Index","Home");
+            try
+            {
+                orderService.RemoveFromCartReturnQuantityOfProducts(GetUserId());
+                return RedirectToAction("Index", "Home");
+
+            }
+            catch (Exception)
+            {
+
+                throw new InvalidOperationException("User or products not valid");
+            }
+
         }
-        private string GetUserId() =>User.GetId();
-        
+        private string GetUserId() => User.GetId();
+
     }
 }

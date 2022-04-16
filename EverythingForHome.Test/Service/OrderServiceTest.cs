@@ -17,27 +17,8 @@ namespace EverythingForHome.Test.Service
         {
             using var data = DatabaseMock.Instance;
             var orderService = new OrderService(data);
-            Account account = new Account()
-            {
-                
-                FirstName = "ivan",
-                LastName = "ivanov",
-                Email = "ddsada@dab.bg",
-                Town = "prd",
-                Address="prd",
-                Orders = new List<Order>()
-
-            };
-            Product product = new Product()
-            {
-                Id = 1,
-                Part = "Cabel",
-                Description = "Dadadadadadadad",
-                Price = 2.4m,
-                Quantity = 1,
-                ImageUrl = "https://www.pyramis.gr/inst/pyramis_6/gallery/product_photos/028058101.jpg",
-                Year = "2020"
-            };
+            Account account = CreateAccount();
+            Product product = CreateProduct();
             Order order = new Order();
             order.Products.Add(product);
             account.Orders.Add(order);
@@ -45,6 +26,33 @@ namespace EverythingForHome.Test.Service
             data.SaveChanges();
             var accountId = data.Accounts.FirstOrDefault();
             orderService.RemoveProductsFromCartToUser(accountId.Id);
+        }
+        private Account CreateAccount()
+        {
+            return new Account()
+            {
+
+                UserName = "Ivan@abv.bg",
+                Email = "Ivan@abv.bg",
+                FirstName = "ivan",
+                LastName = "ivanov",
+                Town = "Provadia",
+                Address = "HG",
+
+            };
+        }
+        private Product CreateProduct()
+        {
+            return new Product()
+            {
+                Id = 1,
+                Part = "Cabel",
+                Price = 2,
+                Quantity = 1,
+                Description = "BEST  EVER!",
+                ImageUrl = "https://www.pyramis.gr/inst/pyramis_6/gallery/product_photos/028058101.jpg",
+                Year = "2021"
+            };
         }
     }
 }

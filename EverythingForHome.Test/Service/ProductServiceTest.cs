@@ -16,14 +16,7 @@ namespace EverythingForHome.Test.ProductServiceTest
         {
             using var data = DatabaseMock.Instance;
             string findProduct = "Cabel";
-            Product product = new Product()
-            {
-                Id = 1,
-                Part = findProduct,
-                Description = "BEST CABEL EVER!",
-                ImageUrl = "https://www.pyramis.gr/inst/pyramis_6/gallery/product_photos/028058101.jpg",
-                Year = "2020"
-            };
+            Product product = CreateProduct();
             data.Products.Add(product);
             data.SaveChanges();
             var productService = new ProductService(data);
@@ -37,14 +30,7 @@ namespace EverythingForHome.Test.ProductServiceTest
             //Arrange
             const int productId = 1;
             using var data = DatabaseMock.Instance;
-            Product product = new Product()
-            {
-                Id = productId,
-                Part = "Cabel",
-                Description = "Dadadadadadadad",
-                ImageUrl = "https://www.pyramis.gr/inst/pyramis_6/gallery/product_photos/028058101.jpg",
-                Year = "2020"
-            };
+            Product product = CreateProduct();
             data.Products.Add(product);
             data.SaveChanges();
             var productService = new ProductService(data);
@@ -82,16 +68,7 @@ namespace EverythingForHome.Test.ProductServiceTest
         {
             using var data = DatabaseMock.Instance;
             var productService = new ProductService(data);
-            Product product = new Product()
-            {
-                Id = 1,
-                Part = "Cabel",
-                Description = "Dadadadadadadad",     
-                Price=2.4m,
-                Quantity=1,
-                ImageUrl = "https://www.pyramis.gr/inst/pyramis_6/gallery/product_photos/028058101.jpg",
-                Year = "2020"
-            };
+            Product product = CreateProduct();
             data.Products.Add(product);
             data.SaveChanges();
             QuaryModel quaryModel = new QuaryModel()
@@ -110,26 +87,11 @@ namespace EverythingForHome.Test.ProductServiceTest
         {
             using var data = DatabaseMock.Instance;
             var productService = new ProductService(data);
-            Product product = new Product()
-            {
-                Id = 1,
-                Part = "Cabel",
-                Description = "Dadadadadadadad",
-                ImageUrl = "https://www.pyramis.gr/inst/pyramis_6/gallery/product_photos/028058101.jpg",
-                Year = "2020"
-            };
+            Product product = CreateProduct();
             data.Products.Add(product);
             data.SaveChanges();
             var allProducts = data.Products.Select(x => x);
-            Account account = new Account()
-            {
-                FirstName = "ivan",
-                LastName = "ivanov",
-                Email = "ddsada@dab.bg",
-                Town = "prd",
-                Orders = new List<Order>()
-                
-            };
+            Account account = CreateAccount();
             
             productService.CreateOrder(account);
         }
@@ -138,26 +100,11 @@ namespace EverythingForHome.Test.ProductServiceTest
         {
             using var data = DatabaseMock.Instance;
             var productService = new ProductService(data);
-            Product product = new Product()
-            {
-                Id = 1,
-                Part = "Cabel",
-                Description = "Dadadadadadadad",
-                ImageUrl = "https://www.pyramis.gr/inst/pyramis_6/gallery/product_photos/028058101.jpg",
-                Year = "2020"
-            };
+            Product product = CreateProduct();
             data.Products.Add(product);
             data.SaveChanges();
             var allProducts = data.Products.Select(x => x);
-            Account account = new Account()
-            {
-                FirstName = "ivan",
-                LastName = "ivanov",
-                Email = "ddsada@dab.bg",
-                Town = "prd",
-                Orders = new List<Order>()
-
-            };
+            Account account = CreateAccount();
             Order order = new Order();
             account.Orders.Add(order);
             productService.CreateOrder(account);
@@ -168,26 +115,8 @@ namespace EverythingForHome.Test.ProductServiceTest
             using var data = DatabaseMock.Instance;
             var productService = new ProductService(data);
             int quantityBuy = 2;
-            Product product = new Product()
-            {
-                Id = 1,
-                Part = "Cabel",
-                Description = "Dadadadadadadad",
-                ImageUrl = "https://www.pyramis.gr/inst/pyramis_6/gallery/product_photos/028058101.jpg",
-                Year = "2020",
-                Quantity = 50,
-                Price=222
-            };
-            Account account = new Account()
-            {
-                FirstName = "ivan",
-                LastName = "ivanov",
-                Email = "ddsada@dab.bg",
-                Town = "prd",
-                
-                Orders = new List<Order>()
-
-            };
+            Product product = CreateProduct();
+            Account account = CreateAccount();
             Order order = new Order()
             {
                 Id=1,
@@ -196,7 +125,33 @@ namespace EverythingForHome.Test.ProductServiceTest
             };
             productService.ProductToCart(order, product, account, quantityBuy);
         }
+        private Account CreateAccount()
+        {
+            return new Account()
+            {
 
+                UserName = "Ivan@abv.bg",
+                Email = "Ivan@abv.bg",
+                FirstName = "ivan",
+                LastName = "ivanov",
+                Town = "Provadia",
+                Address = "HG",
+
+            };
+        }
+        private Product CreateProduct()
+        {
+            return new Product()
+            {
+                Id = 1,
+                Part = "Cabel",
+                Price = 2,
+                Quantity = 1,
+                Description = "BEST  EVER!",
+                ImageUrl = "https://www.pyramis.gr/inst/pyramis_6/gallery/product_photos/028058101.jpg",
+                Year = "2021"
+            };
+        }
 
 
     }
