@@ -1,5 +1,7 @@
 ﻿using DataBaseevEverythingForHome.Models;
 using EverythingForHome.Test.Mock;
+using Microsoft.AspNetCore.Identity;
+using Moq;
 using ProjectEverything.Models;
 using ProjectEverything.Service.User;
 using System;
@@ -13,6 +15,8 @@ namespace EverythingForHome.Test.Service
 {
     public class AcountServiceTest
     {
+
+
         [Fact]
         public void IsGetUser()
         {
@@ -99,5 +103,32 @@ namespace EverythingForHome.Test.Service
 
             var result = accountService.CraeateAccount(register);
         }
+        [Fact]
+        public void IsLogged()
+        {
+            using var data = DatabaseMock.Instance;
+            var accountService = new AccountService(data);
+            Account account = new Account()
+            {
+
+                UserName = "ddsada@dab.bg",
+                Email = "ddsada@dab.bg",
+                FirstName = "ivan",
+                LastName = "ivanov",
+                Town = "prd",
+                Address = "prd",
+
+            };
+            data.Accounts.Add(account);
+            data.SaveChanges();
+            LoginFormModel login = new LoginFormModel()
+            {
+                Email = account.Email,
+
+            };
+            var currentAccount = data.Accounts.Select(x => x).FirstOrDefault();
+
+            Assert.NotNull(currentAccount);
+        }       
     }
 }

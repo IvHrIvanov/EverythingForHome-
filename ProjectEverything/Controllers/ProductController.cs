@@ -57,49 +57,90 @@ namespace ProjectEverything.Controllers
         [Authorize(Roles = AdminRole.adminRole)]
         public async Task<IActionResult> CreateProduct(ProductFormModel product)
         {
-
+            bool isNotAdmin = IsAdmin();
+            if (isNotAdmin)
+            {
+                return BadRequest();
+            }
             if (!ModelState.IsValid && product.id != 0)
             {
                 return View(product);
             }
-            this.productService.Create
-                 (
-                 product.Part,
-                 product.Year,
-                 product.Price,
-                 product.Quantity,
-                 product.ImageUrl,
-                 product.Description
-                 );
-            TempData[GlobalMessage] = $"{product.Part} was create!";
+            try
+            {
+                this.productService.Create
+               (
+               product.Part,
+               product.Year,
+               product.Price,
+               product.Quantity,
+               product.ImageUrl,
+               product.Description
+               );
+                TempData[GlobalMessage] = $"{product.Part} was create!";
 
-            return RedirectToAction(nameof(CreateProduct));
+                return RedirectToAction(nameof(CreateProduct));
+            }
+            catch (Exception)
+            {
+
+                throw new Exception($"{product.Part} product not valid");
+            }
+          
         }
 
         [Authorize(Roles = AdminRole.adminRole)]
         public async Task<IActionResult> RemoveProductFromDB(QuaryModel product)
         {
-            productService.ProductRemoveDB(product);
+            bool isNotAdmin = IsAdmin();
+            if (isNotAdmin)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                productService.ProductRemoveDB(product);
 
-            return RedirectToAction(nameof(AllProducts), "Product");
+                return RedirectToAction(nameof(AllProducts), "Product");
+            }
+            catch (Exception)
+            {
+
+                throw new Exception($"Cannot find product to remove");
+            }
+           
         }
         public IActionResult EditProduct() => View();
         [HttpPost]
         [Authorize(Roles = AdminRole.adminRole)]
         public IActionResult EditProduct(QuaryModel quary)
         {
-            var productData = productService.ProductById(quary.ProductId);
-
-            return View(new ProductFormModel
+            bool isNotAdmin = IsAdmin();
+            if (isNotAdmin)
             {
-                id = productData.Id,
-                Part = productData.Part,
-                Year = productData.Year,
-                Price = productData.Price,
-                Quantity = productData.Quantity,
-                ImageUrl = productData.ImageUrl,
-                Description = productData.Description
-            });
+                return BadRequest();
+            }
+            
+            try
+            {
+                var productData = productService.ProductById(quary.ProductId);
+                return View(new ProductFormModel
+                {
+                    id = productData.Id,
+                    Part = productData.Part,
+                    Year = productData.Year,
+                    Price = productData.Price,
+                    Quantity = productData.Quantity,
+                    ImageUrl = productData.ImageUrl,
+                    Description = productData.Description
+                });
+            }
+            catch (Exception)
+            {
+                throw new Exception($"Product Cannot be find");
+            }
+
+           
         }
         [Authorize(Roles = AdminRole.adminRole)]
         public IActionResult UpdateProduct(ProductFormModel product)
@@ -116,10 +157,12 @@ namespace ProjectEverything.Controllers
             }
             catch (Exception)
             {
-
-                return RedirectToAction("Error", "Something is wrong");
+                
+                throw new Exception("Something is Wrong");
             }
-         
+
         }
+        
+        private bool IsAdmin() => !User.IsInRole(AdminRole.adminRole);
     }
 }

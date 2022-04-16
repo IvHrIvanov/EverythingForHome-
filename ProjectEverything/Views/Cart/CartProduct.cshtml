@@ -53,7 +53,7 @@
                 <p class="text-end fw-bold">Total Price - @(totalPrice=Model.Products.Sum(x=>x.Price*x.QuantityBuy)) BGN</p>
             }
         </ul>
-        <button class="btn btn-primary r float-start @(Model.Products.Count()==0 ?"disabled":string.Empty)">Cancel</button>
+        <a asp-controller="Order" asp-action="CancelOrder" class="btn btn-primary r float-start @(Model.Products.Count()==0 ?"disabled":string.Empty)">Cancel</a>
 
         <a asp-controller="Order" asp-action="Order" class="btn btn-primary r float-end @(Model.Products.Count()==0 ?"disabled":string.Empty)">Confirm Order</a>
     </div>

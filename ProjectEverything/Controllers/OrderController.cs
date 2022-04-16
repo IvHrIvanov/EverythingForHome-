@@ -18,9 +18,16 @@ namespace ProjectEverything.Controllers
         public IActionResult Order()
         {
             TempData[GlobalMessage] = $"Thank you for Purchase";
-            var userId = User.GetId();
-            orderService.RemoveProductsFromCartToUser(userId);
+          
+            orderService.RemoveProductsFromCartToUser(GetUserId());
             return View();
         }
+        public IActionResult CancelOrder()
+        {
+            orderService.RemoveFromCartReturnQuantityOfProducts(GetUserId());
+            return RedirectToAction("Index","Home");
+        }
+        private string GetUserId() =>User.GetId();
+        
     }
 }

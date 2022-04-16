@@ -12,7 +12,9 @@ html {
     position: relative;
     min-height: 100%;
 }
-
+.card{
+    border-radius: 45px;
+}
 #example {
     height: 820px;
     background: url(/sklad.jpg);
@@ -35,7 +37,13 @@ html {
 body {
     margin-bottom: 50px;
 }
-
+.skladIMG {
+    width: 67.5%;
+    height: 75%;
+    position: absolute;
+    z-index: -1;
+    opacity: 0.7;
+}
 .imageControll {
     height: 200px;
     width: 300px;
