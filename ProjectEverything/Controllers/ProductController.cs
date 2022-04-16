@@ -22,9 +22,8 @@ namespace ProjectEverything.Controllers
             this.accountService = accountService;
 
         }
-        public IActionResult Product([FromQuery] QuaryModel quary)
+        public IActionResult AllProducts([FromQuery] QuaryModel quary)
         {
-
             var partsQuaryable = this.productService.Products();
 
             if (!String.IsNullOrWhiteSpace(quary.SearchTerm))
@@ -42,7 +41,7 @@ namespace ProjectEverything.Controllers
         {
             if (cart.QuantityBuy <= 0)
             {
-                return RedirectToAction(nameof(Product));
+                return RedirectToAction(nameof(AllProducts));
             }
             var accountId = User.GetId();
             var account = accountService.GetUser(accountId);
@@ -50,16 +49,16 @@ namespace ProjectEverything.Controllers
             var product = this.productService.Product(cart.ProductId);
             this.productService.ProductToCart(order, product, account, cart.QuantityBuy);
 
-            return RedirectToAction(nameof(Product));
+            return RedirectToAction(nameof(AllProducts));
         }
 
-        public IActionResult Add() => View();
+        public IActionResult CreateProduct() => View();
         [HttpPost]
         [Authorize(Roles = AdminRole.adminRole)]
-        public async Task<IActionResult> Add(ProductFormModel product)
+        public async Task<IActionResult> CreateProduct(ProductFormModel product)
         {
 
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid && product.id != 0)
             {
                 return View(product);
             }
@@ -72,24 +71,28 @@ namespace ProjectEverything.Controllers
                  product.ImageUrl,
                  product.Description
                  );
-            TempData[GlobalMessage] = $"You Add/Edit Product {product.Part}";
+            TempData[GlobalMessage] = $"{product.Part} was create!";
 
-            return RedirectToAction(nameof(Add));
+            return RedirectToAction(nameof(CreateProduct));
         }
+
         [Authorize(Roles = AdminRole.adminRole)]
         public async Task<IActionResult> RemoveProductFromDB(QuaryModel product)
         {
             productService.ProductRemoveDB(product);
 
-            return RedirectToAction("Product", "Product");
+            return RedirectToAction(nameof(AllProducts), "Product");
         }
+        public IActionResult EditProduct() => View();
+        [HttpPost]
         [Authorize(Roles = AdminRole.adminRole)]
-        public IActionResult Edit(QuaryModel quary)
+        public IActionResult EditProduct(QuaryModel quary)
         {
             var productData = productService.ProductById(quary.ProductId);
 
             return View(new ProductFormModel
             {
+                id = productData.Id,
                 Part = productData.Part,
                 Year = productData.Year,
                 Price = productData.Price,
@@ -98,7 +101,25 @@ namespace ProjectEverything.Controllers
                 Description = productData.Description
             });
         }
+        [Authorize(Roles = AdminRole.adminRole)]
+        public IActionResult UpdateProduct(ProductFormModel product)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(nameof(EditProduct), product);
+            }
+            try
+            {
+                TempData[GlobalMessage] = $"{product.Part} was update!";
+                productService.UpdateCurrentProduct(product);
+                return RedirectToAction(nameof(AllProducts));
+            }
+            catch (Exception)
+            {
 
+                return RedirectToAction("Error", "Something is wrong");
+            }
+         
+        }
     }
-
 }

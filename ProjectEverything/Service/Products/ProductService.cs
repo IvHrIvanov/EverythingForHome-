@@ -1,6 +1,7 @@
 ﻿using DataBaseevEverythingForHome.Database;
 using DataBaseevEverythingForHome.Models;
 using ProjectEverything.Models;
+using ProjectEverything.Models.ElectricPart;
 using ProjectEverything.Service.Shop;
 
 namespace ProjectEverything.Service
@@ -46,7 +47,7 @@ namespace ProjectEverything.Service
             this.data.SaveChangesAsync();
         }
 
-        public  Product Product(int productId)
+        public Product Product(int productId)
                  => this.data.Products.
                  Where(x => x.Id == productId)
                 .FirstOrDefault();
@@ -85,11 +86,24 @@ namespace ProjectEverything.Service
             return order;
         }
 
-        public void ProductRemoveDB(QuaryModel product)
+        public async void ProductRemoveDB(QuaryModel product)
         {
             var productData = data.Products.Where(x => x.Id == product.ProductId).FirstOrDefault();
             data.Products.Remove(productData);
-            data.SaveChanges();
+            data.SaveChangesAsync();
+        }
+
+        public async void UpdateCurrentProduct(ProductFormModel product)
+        {
+            var updateProduct = this.ProductById(product.id);
+            updateProduct.Price = product.Price;
+            updateProduct.Description = product.Description;
+            updateProduct.Quantity= product.Quantity;
+            updateProduct.Part=product.Part;
+            updateProduct.ImageUrl= product.ImageUrl;
+            updateProduct.Year= product.Year;
+            data.Products.Update(updateProduct);
+            data.SaveChangesAsync();
         }
     }
 }

@@ -23,7 +23,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Product">Products</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="AllProducts">Products</a>
                         </li>
 
                         <li class="nav-item">
@@ -54,7 +54,7 @@
                         if (User.IsInRole("Administrator"))
                         {
                             <li class="list-unstyled">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Add">Add Product</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="CreateProduct">Add Product</a>
                             </li>
                         }
 

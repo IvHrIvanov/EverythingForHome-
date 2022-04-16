@@ -1,3 +1,4 @@
+using DataBaseEverything.Configuration;
 using DataBaseevEverythingForHome.Database;
 using DataBaseevEverythingForHome.Models;
 using Microsoft.AspNetCore.Identity;
@@ -8,11 +9,12 @@ using ProjectEverything.Service.Carts;
 using ProjectEverything.Service.Shop;
 using ProjectEverything.Service.User;
 using ProjectEverything.Service.Users;
+using ProjectEverything.Views.Order;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = @"Server=.;Database=EverythingForHomeDB;Integrated Security=True;";
+var connectionString = ConnectionPath.DB_CONNECTION_PATH;
 builder.Services.AddDbContext<EverythingForHomeDBContext>(options =>
     options.UseSqlServer(connectionString, b => b.MigrationsAssembly("ProjectEverything")));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -31,6 +33,7 @@ builder.Services.AddDefaultIdentity<Account>(options =>
 builder.Services.AddTransient<IAccountService, AccountService>();
 builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<ICartService, CartService>();
+builder.Services.AddTransient<IOrderService, OrderService>();
 var app = builder.Build();
 
 app.PrepareDatabase();

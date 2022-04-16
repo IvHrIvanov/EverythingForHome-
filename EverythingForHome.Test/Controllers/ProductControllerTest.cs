@@ -1,5 +1,6 @@
 ﻿using DataBaseevEverythingForHome.Models;
 using EverythingForHome.Test.Mock;
+using ProjectEverything;
 using ProjectEverything.Controllers;
 using ProjectEverything.Models;
 using ProjectEverything.Models.ElectricPart;
@@ -34,7 +35,7 @@ namespace EverythingForHome.Test.Controllers
             {
                 SearchTerm = null
             };
-            productController.Product(quary);
+            productController.AllProducts(quary);
         }
         [Fact]
         public void IsProductSearchIsNotNull()
@@ -58,7 +59,7 @@ namespace EverythingForHome.Test.Controllers
             {
                 SearchTerm = "Cabel"
             };
-            productController.Product(quary);
+            productController.AllProducts(quary);
 
         }
         [Fact]
@@ -105,7 +106,7 @@ namespace EverythingForHome.Test.Controllers
                 Quantity = 1
 
             };
-            productController.Add(formModel);
+            productController.CreateProduct(formModel);
         }
         [Fact]
         public void IsRemoveFromDb()
@@ -126,8 +127,8 @@ namespace EverythingForHome.Test.Controllers
             };
             QuaryModel quaryModel = new QuaryModel()
             {
-                ProductId=product.Id,
-                
+                ProductId = product.Id,
+
             };
             data.Products.Add(product);
             data.SaveChanges();
@@ -157,23 +158,35 @@ namespace EverythingForHome.Test.Controllers
             };
             data.Products.Add(product);
             data.SaveChanges();
-            productController.Edit(quaryModel);
+            productController.EditProduct(quaryModel);
         }
-       
-        //[Fact]
-        //public void IsModelNotValid()
-        //{
-        //    using var data = DatabaseMock.Instance;
-        //    var productService = new ProductService(data);
-        //    var acountService = new AccountService(data);
-        //    var productController = new ProductController(productService, acountService);
 
-        //    ProductFormModel formModel = new ProductFormModel()
-        //    {
-        //        Part="Boiler"
-        //    };
-        //    productController.Add(formModel);
-        //}
+        [Fact]
+        public void IsModelNotValid()
+        {
+            using var data = DatabaseMock.Instance;
+            var productService = new ProductService(data);
+            var acountService = new AccountService(data);
+            var productController = new ProductController(productService, acountService);
+
+            ProductFormModel formModel = new ProductFormModel()
+            {
+                Part = "Boiler"
+            };
+
+            productController.CreateProduct(formModel);
+        }
+        [Fact]
+        public void IsUpdatedCurrentProduct()
+        {
+            using var data = DatabaseMock.Instance;
+            var productService = new ProductService(data);
+            var acountService = new AccountService(data);
+            var productController = new ProductController(productService, acountService);
+            ProductFormModel updateProduct = new ProductFormModel();
+
+            productController.UpdateProduct(updateProduct);
+        }
 
         //[Fact]
         //public void IsControllerAddProductToCart()

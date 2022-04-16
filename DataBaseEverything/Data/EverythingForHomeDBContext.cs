@@ -1,4 +1,5 @@
-﻿using DataBaseevEverythingForHome.Models;
+﻿using DataBaseEverything.Configuration;
+using DataBaseevEverythingForHome.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,7 +24,7 @@ namespace DataBaseevEverythingForHome.Database
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Server=.;Database=EverythingForHomeDB;Integrated Security=True;");
+                optionsBuilder.UseSqlServer(ConnectionPath.DB_CONNECTION_PATH);
             }
         }
 

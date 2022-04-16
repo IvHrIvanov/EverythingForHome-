@@ -14,6 +14,7 @@ namespace ProjectEverything.Models
         [Range(0,100)]
         [Display(Name ="Quantity")]
         public int QuantityBuy { get; init; }
+
         public IEnumerable<ProductViewModel> Products { get; set; }
     }
 }

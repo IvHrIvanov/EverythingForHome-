@@ -1,5 +1,6 @@
 ﻿using DataBaseevEverythingForHome.Models;
 using ProjectEverything.Models;
+using ProjectEverything.Models.ElectricPart;
 using System.Linq;
 
 namespace ProjectEverything.Service.Shop
@@ -22,5 +23,6 @@ namespace ProjectEverything.Service.Shop
         public Product ProductById(int productId);
         public Order CreateOrder(Account account);
         public void ProductRemoveDB(QuaryModel product);
+        public void UpdateCurrentProduct(ProductFormModel product);
     }
 }

@@ -1,0 +1,14 @@
+﻿@using ProjectEverything.Models.ElectricPart
+@{
+    ViewData["Title"] = "EditProduct";
+}
+@model ProductFormModel
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form method="post">
+            <partial name="_ProductFormPartial" model="@Model" />
+            <input asp-controller="Product" asp-action="UpdateProduct" class="btn btn-primary r mt-2" type="submit" value="Update">
+        </form>
+    </div>
+</div>

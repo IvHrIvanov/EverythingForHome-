@@ -56,26 +56,6 @@ namespace EverythingForHome.Test.Controllers
 
             productController.RemovePart(cartProducts);
         }
-        [Fact]
-        public async Task CartProductAsync()
-        {
-            using var data = DatabaseMock.Instance;
-            var cartService = new CartService(data);
-            var cartController = new CartController(cartService);
-            CartProducts cartProducts = new CartProducts();
-            Account account = new Account()
-            {
-                FirstName = "ivan",
-                LastName = "ivanov",
-                Email = "ddsada@dab.bg",
-                Town = "prd",
-                Address = "prd",
-                Orders = new List<Order>()
 
-            };
-
-            cartController.CartProduct(cartProducts);
-
-        }
     }
 }
