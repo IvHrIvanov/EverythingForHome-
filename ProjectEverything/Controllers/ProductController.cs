@@ -17,11 +17,10 @@ namespace ProjectEverything.Controllers
 
         public ProductController(IProductService productService, IAccountService accountService)
         {
-
             this.productService = productService;
             this.accountService = accountService;
-
         }
+
         public IActionResult AllProducts([FromQuery] QuaryModel quary)
         {
             var partsQuaryable = this.productService.Products();
@@ -48,7 +47,6 @@ namespace ProjectEverything.Controllers
             var order = productService.CreateOrder(account);
             var product = this.productService.Product(cart.ProductId);
             this.productService.ProductToCart(order, product, account, cart.QuantityBuy);
-
             return RedirectToAction(nameof(AllProducts));
         }
 
@@ -57,70 +55,51 @@ namespace ProjectEverything.Controllers
         [Authorize(Roles = AdminRole.adminRole)]
         public async Task<IActionResult> CreateProduct(ProductFormModel product)
         {
-            bool isNotAdmin = IsAdmin();
-            if (isNotAdmin)
-            {
-                return BadRequest();
-            }
             if (!ModelState.IsValid && product.id != 0)
             {
                 return View(product);
             }
+
             try
             {
                 this.productService.Create
                (
-               product.Part,
-               product.Year,
-               product.Price,
-               product.Quantity,
-               product.ImageUrl,
-               product.Description
+                   product.Part,
+                   product.Year,
+                   product.Price,
+                   product.Quantity,
+                   product.ImageUrl,
+                   product.Description
                );
                 TempData[GlobalMessage] = $"{product.Part} was create!";
-
                 return RedirectToAction(nameof(CreateProduct));
+
             }
             catch (Exception)
             {
-
                 throw new Exception($"{product.Part} product not valid");
             }
-          
         }
 
         [Authorize(Roles = AdminRole.adminRole)]
         public async Task<IActionResult> RemoveProductFromDB(QuaryModel product)
         {
-            bool isNotAdmin = IsAdmin();
-            if (isNotAdmin)
-            {
-                return BadRequest();
-            }
             try
             {
                 productService.ProductRemoveDB(product);
-
                 return RedirectToAction(nameof(AllProducts), "Product");
             }
             catch (Exception)
             {
-
                 throw new Exception($"Cannot find product to remove");
             }
-           
         }
         public IActionResult EditProduct() => View();
         [HttpPost]
         [Authorize(Roles = AdminRole.adminRole)]
         public IActionResult EditProduct(QuaryModel quary)
         {
-            bool isNotAdmin = IsAdmin();
-            if (isNotAdmin)
-            {
-                return BadRequest();
-            }
-            
+
             try
             {
                 var productData = productService.ProductById(quary.ProductId);
@@ -139,9 +118,8 @@ namespace ProjectEverything.Controllers
             {
                 throw new Exception($"Product Cannot be find");
             }
-
-           
         }
+
         [Authorize(Roles = AdminRole.adminRole)]
         public IActionResult UpdateProduct(ProductFormModel product)
         {
@@ -149,20 +127,17 @@ namespace ProjectEverything.Controllers
             {
                 return View(nameof(EditProduct), product);
             }
+
             try
             {
-                TempData[GlobalMessage] = $"{product.Part} was update!";
+                TempData[GlobalMessage] = $"{product.Part} was updated!";
                 productService.UpdateCurrentProduct(product);
                 return RedirectToAction(nameof(AllProducts));
             }
             catch (Exception)
             {
-                
                 throw new Exception("Something is Wrong");
             }
-
         }
-        
-        private bool IsAdmin() => !User.IsInRole(AdminRole.adminRole);
     }
 }

@@ -14,6 +14,7 @@ namespace EverythingForHome.Test.Controllers
     {
         private static string CABEL = "Cabel";
         private static string BOILER = "Boiler";
+
         [Fact]
         public void IsProductSearchIsNull()
         {

@@ -43,9 +43,14 @@ namespace ProjectEverything.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginFormModel user)
         {
+            if (user.Email == null || user.Password == null)
+            {
+                return View(user);
+            }
             const string invalidCredentials = "Credentials invalid.";
 
             var loggedUser = await this.userMenager.FindByEmailAsync(user.Email);
+
             if (loggedUser == null)
             {
                 ModelState.AddModelError(string.Empty, invalidCredentials);
@@ -59,11 +64,11 @@ namespace ProjectEverything.Controllers
             }
             await this.signInManager.SignInAsync(loggedUser, true);
             return RedirectToAction("Index", "Home");
-        } 
+        }
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
-          
+
             return RedirectToAction("Index", "Home");
         }
 
