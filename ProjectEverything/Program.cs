@@ -30,6 +30,7 @@ builder.Services.AddDefaultIdentity<Account>(options =>
 })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<EverythingForHomeDBContext>();
+
 builder.Services.AddTransient<IAccountService, AccountService>();
 builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<ICartService, CartService>();

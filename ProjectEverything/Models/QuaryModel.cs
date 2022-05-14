@@ -4,7 +4,7 @@ namespace ProjectEverything.Models
 {
     public class QuaryModel
     {
-        public const int PartsPerPage = 3;
+        public const int PartsPerPage = 6;
         public int ProductId { get; set; }
         public string AccountId { get; set; }
         public int CurrentPage { get; init; } = 1;

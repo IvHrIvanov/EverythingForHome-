@@ -4,11 +4,22 @@
 
 <div id="example">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6 text-center">
-
-        <h2 class="display-4 text-light mt-5">Welcome to online shop</h2>
-        <h4 class="display-6 text-light">for electric and water parts</h4>
-
-        <a class="button-48" role="button" asp-controller="Product" asp-action="AllProducts" > <span class="text"> Shop now</span> </a>
+        <h2 class="display-4 text-light mt-5 e">Welcome to online shop</h2>
+        <h4 class="display-6 text-light ">for electric and water parts</h4>
+        <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel" >
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="/sklad.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="/Everything.jpg" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="/Tessy.jpg" class="d-block w-100" alt="...">
+                </div>
+            </div>
+        </div>    
+        <a class="button-48" role="button" asp-controller="Product" asp-action="AllProducts"> <span class="text"> Shop now</span> </a>
 
     </div>
 </div>

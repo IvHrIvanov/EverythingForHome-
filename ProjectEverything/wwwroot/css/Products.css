@@ -1,13 +1,16 @@
-﻿body {
-    background-image: url("/skladProducts.jpg");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-attachment: fixed;
-    background-size: cover;
-}
-.partName{
-    border-block: solid;
+﻿
+.partName {
     background: #ffffff;
     border-radius: 50px;
-  
+}
+
+.buttonsMove {
+    position: absolute;
+    bottom: 0;
+}
+
+.quantityMove {
+    position: absolute;
+    bottom: 0;
+    left: 285px;
 }

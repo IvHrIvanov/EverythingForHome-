@@ -38,10 +38,10 @@
     @foreach (var product in Model.Products)
     {
         <div class="sizeCard col-md-4">
-            <h2 class="text-center text-black mt-4 partName" >@product.Part</h2><span class="badge bg-secondary mb-2">New</span>
+            <h2 class="text-center text-black mt-4 partName">@product.Part</h2>
             <div class="card">
                 <img src="@product.ImageUrl" class="card-img-top" alt="@product.Part">
-                <div class="card-body">
+                <div class="card-body mt-2">
                     <p class="card-text">Price - @product.Price BGN</p>
                     <p class="card-text">Yaer - @product.Year</p>
                     <p class="card-text">Description - @product.Description</p>
@@ -56,27 +56,33 @@
                             }
                             <input asp-for="ProductId" class="visually-hidden" value=@product.Id>
                         </div>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <label asp-for="QuantityBuy">Quantity</label>
-                            <input asp-for="QuantityBuy" class="inputQuantity form-control mb-2 mt-1" min="0" max="@product.Quantity" placeholder="Quantity...">
-                            <input class="btn btn-primary r @(product.Quantity==0 ?"disabled":string.Empty)" type="submit" value="Add to Cart">
-                        }
-                        @if (User.IsInRole(AdminRole.adminRole))
-                        {
-                            <input asp-for="ProductId" class="visually-hidden" value=@product.Id>
-                            <input asp-controller="Product" asp-action="EditProduct" class="btn btn-danger" type="submit" value="Edit">
-                            <input asp-controller="Product" asp-action="RemoveProductFromDB" class="btn btn-danger" type="submit" value="Remove" />
-                        }
+                        <div class="buttonsMove mb-3">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <label asp-for="QuantityBuy">Quantity</label>
+                                <input asp-for="QuantityBuy" class="inputQuantity form-control mb-2 mt-1" min="0" max="@product.Quantity" placeholder="Quantity...">
+                                <input class="btn btn-primary r @(product.Quantity==0 ?"disabled":string.Empty)" type="submit" value="Add to Cart">
+                            }
+                            @if (User.IsInRole(AdminRole.adminRole))
+                            {
+                                <input asp-for="ProductId" class="visually-hidden" value=@product.Id>
+                                <input asp-controller="Product" asp-action="EditProduct" class="btn btn-danger" type="submit" value="Edit">
+                                <input asp-controller="Product" asp-action="RemoveProductFromDB" class="btn btn-danger" type="submit" value="Remove" />
+                            }
+                        </div>
+
                     </form>
-                    @if (@product.Part.Contains(ProductConst.CABEL))
-                    {
-                        <span class="badge bg-primary rounded-pill float-end">Quantity - @product.Quantity Meters</span>
-                    }
-                    else
-                    {
-                        <span class="badge bg-primary rounded-pill float-end">Quantity - @product.Quantity Piece</span>
-                    }
+                    <div class="quantityMove mb-3">
+                        @if (@product.Part.Contains(ProductConst.CABEL))
+                        {
+                            <span class="badge bg-primary rounded-pill">Quantity - @product.Quantity m.</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-primary rounded-pill">Quantity - @product.Quantity pc.</span>
+                        }
+                    </div>
+
                 </div>
             </div>
         </div>

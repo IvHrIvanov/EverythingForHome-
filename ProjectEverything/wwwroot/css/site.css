@@ -12,12 +12,28 @@ html {
     position: relative;
     min-height: 100%;
 }
-.card{
-    border-radius: 45px;
+
+.card {
+    height: 560px;
+}
+.carousel-inner img{
+    object-fit:cover;
+    width: 100%;
+    height: 85vh;
+}
+#carouselExampleSlidesOnly {
+    position: absolute;
+    right: 150px;
+    top: 70px;
+}
+.d-block {
+    float: left;
+    width: 30vw;
+    height: 30vw;
+    background-size: cover;
 }
 #example {
     height: 820px;
-    background: url(/sklad.jpg);
     background-repeat: no-repeat;
     background-origin: content-box, content-box;
 }
@@ -37,6 +53,7 @@ html {
 body {
     margin-bottom: 50px;
 }
+
 .skladIMG {
     width: 67.5%;
     height: 75%;
@@ -44,6 +61,7 @@ body {
     z-index: -1;
     opacity: 0.7;
 }
+
 .imageControll {
     height: 200px;
     width: 300px;
@@ -51,7 +69,6 @@ body {
 
 .navbar-nav {
     justify-content: center;
-    margin-right: 40px;
 }
 
 .nav-item {
@@ -130,15 +147,15 @@ body {
     text-align: center;
     position: fixed;
     top: 30%;
-   
     margin-top: -150px;
     margin-left: -300px;
 }
+
 .orderButton {
     margin-top: 10px;
-    
 }
-.box{
+
+.box {
     width: 570px;
     height: 400px;
 }
